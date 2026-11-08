@@ -305,10 +305,10 @@ container.addEventListener("wheel", (e) => {
     const ratio = scale / oldScale;
 
     container.scrollLeft =
-        (container.scrollLeft + mouseX) * ratio - mouseX;
+    mapLeft + (container.scrollLeft + mouseX - mapLeft) * ratio - mouseX;
 
     container.scrollTop =
-        (container.scrollTop + mouseY) * ratio - mouseY;
+    mapTop + (container.scrollTop + mouseY - mapTop) * ratio - mouseY;
 
 }, { passive: false });
 
