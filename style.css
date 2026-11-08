@@ -24,8 +24,9 @@ body {
 /* 노선도가 움직일 수 있는 작업 공간 */
     .map-stage {
         position: relative;
-        width: 5000px;
-        height: 4000px;
+        width: 8000px;
+        height: 6000px;
+        background: rgba(0, 0, 0, 0.05);
     }
 
 /* 노선도 초기 위치 */
