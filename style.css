@@ -31,8 +31,8 @@ body {
 /* 노선도 초기 위치 */
     .map {
         position: absolute;
-        left: 0;
-        top: 0;
+        left: 1000px;
+        top: 1000px;
 
         display: block;
         width: 1400px;
