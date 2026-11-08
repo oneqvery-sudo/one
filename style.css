@@ -1,0 +1,139 @@
+body {
+    background-color: white;
+    font-family: sans-serif;
+    margin: 40px;
+}
+
+
+
+/*메인화면이동*/
+    .map-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
+        cursor: grab;
+    }
+
+    .map-container:active {
+        cursor: grabbing;
+    }
+
+/* 노선도가 움직일 수 있는 작업 공간 */
+    .map-stage {
+        position: relative;
+        width: 3000px;
+        height: 2500px;
+    }
+
+/* 노선도 초기 위치 */
+    .map {
+        position: absolute;
+        left: 0;
+        top: 0;
+
+        display: block;
+        width: 1400px;
+        height: auto;
+        max-width: none;
+        margin: 0;
+        user-select: none;
+    }
+
+
+/* 노선도 초기화 버튼 */
+    #reset-button {
+        position: fixed;
+        top: 25px;
+        right: 25px;
+        width: 45px;
+        height: 45px;
+        border: 1px solid black;
+        border-radius: 50%;
+        background: white;
+        color: black;
+        font-size: 24px;
+        cursor: pointer;
+        z-index: 10;
+    }
+
+    #reset-button:hover {
+        background: black;
+        color: white;
+    }
+
+
+
+
+
+
+
+/*역의 원과 이름*/
+    .stations circle {
+        fill: white;
+        stroke: black;
+        stroke-width: 2;
+    }
+
+    .station-labels {
+        font-size: 10px;
+        fill: black;
+        font-family: sans-serif;
+    }
+
+
+/* 역에 마우스를 올렸을 때 */
+    .station {
+        cursor: pointer;
+    }
+
+    .station:hover text {
+        fill: gray;
+    }
+
+    .station circle {
+        transition: r 0.2s ease;
+    }
+
+    .station:hover circle {
+        r: 8;
+        fill: gray;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*서브페이지의 작품*/
+
+/* 나무 페이지 */
+
+    .artwork-container {
+        display: flex;
+        flex-direction: row;
+        gap: 80px;
+        width: max-content;
+        padding: 100px;
+    }
+
+    .artwork {
+        width: 500px;
+        height: 600px;
+        border: 1px solid black;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }

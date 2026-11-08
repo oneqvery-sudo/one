@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Art Archive</title>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+
+
+<div class="map-container">
+    <div class="map-stage">
+
+
+<!--메인화면의 노선도-->
+<svg class="map" viewBox="0 0 1031 675">
+
+    <!-- 감상 노선: 바깥을 둘러싸는 노선 -->
+    <path d="M 376 608 V 118 H 811 V 657 H 140"
+          fill="none" 
+          stroke="black" 
+          stroke-width="2"/>
+
+    <!-- 검은빛 / 검은화면 위쪽 노선 -->
+    <path d="M 408 145 V 201 H 694 V 239 H 642 V 409"
+          fill="none" 
+          stroke="black" 
+          stroke-width="2"/>
+
+    <!-- 위쪽 중앙 세로 노선 -->
+    <path d="M 565 161 V 234"
+          fill="none" 
+          stroke="black" 
+          stroke-width="2"/>
+
+    <!-- 위쪽 짧은 가로 노선 -->
+    <path d="M 565 161 H 684"
+          fill="none" 
+          stroke="black" 
+          stroke-width="2"/>
+
+    <!-- 왼쪽 세로 및 대각선 노선 -->
+    <path d="M 452 244 V 329 L 474 369 L 494 409 L 521 464"
+          fill="none" 
+          stroke="black" 
+          stroke-width="2"/>
+
+    <!-- 가운데 가로 노선 -->
+    <path d="M 260 409 H 740 V 467 H 886"
+          fill="none" 
+          stroke="black" 
+          stroke-width="2"/>
+
+    <!-- 아래쪽에서 음양으로 이어지는 연결 노선 -->
+    <path d="M 467 640
+         L 635 449
+         H 686
+         V 375
+         L 747 329"
+        fill="none"
+        stroke="black"
+        stroke-width="2"/>
+
+
+
+    <!-- 역 -->
+    <g class="stations">
+    
+
+    <!-- 1. 감상 -->
+        <g class="stations-gamsang">
+
+            <circle cx="376" cy="118" r="5"/>
+            <text x="386" y="122">말의 고민_나비는 나비?</text>
+
+            <circle cx="811" cy="118" r="5"/>
+            <text x="821" y="122">빛나지 않아요_어떤 형태로든 앞으로 나가는</text>
+
+            <circle cx="811" cy="657" r="5"/>
+            <text x="821" y="661">소년이온다_영웅과 인간</text>
+
+            <circle cx="140" cy="657" r="5"/>
+            <text x="150" y="661">프로젝트_땅을 가르는 기준</text>
+
+        </g>
+
+
+    <!-- 2. 나무 -->
+        <g class="stations-tree">
+
+            <g class="station" onclick="if (!hasDragged) location.href='tree.html'">
+                <circle cx="494" cy="409" r="5"/>
+                <text x="504" y="413">얽히기</text>
+            </g>
+
+            <circle cx="642" cy="409" r="5"/>
+            <text x="652" y="413">닿기</text>
+
+            <circle cx="686" cy="409" r="5"/>
+            <text x="696" y="413">떠올리기</text>
+
+            <circle cx="740" cy="409" r="5"/>
+            <text x="750" y="413">더하기</text>
+
+            <circle cx="740" cy="467" r="5"/>
+            <text x="750" y="471">덮히기</text>
+
+            <circle cx="886" cy="467" r="5"/>
+            <text x="896" y="471">바라보기</text>
+
+        </g>
+
+
+    <!-- 3. 음양 -->
+       <g class="stations-black-light">
+
+            <circle cx="747" cy="329" r="5"/>
+            <text x="757" y="333">쉼</text>
+
+            <circle cx="686" cy="375" r="5"/>
+            <text x="696" y="379">형제자매</text>
+
+            <circle cx="686" cy="449" r="5"/>
+            <text x="696" y="453">우울</text>
+
+            <circle cx="661" cy="449" r="5"/>
+            <text x="671" y="463">집중</text>
+
+            <circle cx="635" cy="449" r="5"/>
+            <text x="645" y="453">쌍둥이</text>
+
+            <circle cx="611" cy="476" r="5"/>
+            <text x="621" y="480">독자</text>
+
+            <circle cx="587" cy="504" r="5"/>
+            <text x="597" y="508">얼굴</text>
+
+            <circle cx="563" cy="531" r="5"/>
+            <text x="573" y="535">군중</text>
+
+            <circle cx="539" cy="558" r="5"/>
+            <text x="549" y="562">죽음</text>
+
+            <circle cx="515" cy="585" r="5"/>
+            <text x="525" y="589">사진</text>
+
+            <circle cx="491" cy="613" r="5"/>
+            <text x="501" y="617">숲0</text>
+
+        </g>
+
+
+    <!-- 4. 검은빛 -->
+         <g class="stations-black-screen">
+      
+            <circle cx="408" cy="201" r="5"/>
+            <text x="418" y="205">커튼</text>
+
+            <circle cx="694" cy="201" r="5"/>
+            <text x="704" y="205">벤치</text>
+
+            <circle cx="694" cy="239" r="5"/>
+            <text x="704" y="243">운동장</text>
+
+            <circle cx="642" cy="239" r="5"/>
+            <text x="652" y="243">건물</text>
+
+        </g>
+
+
+    <!-- 5. 검은화면 -->
+        <g class="stations-black-screen">
+
+            <circle cx="565" cy="161" r="5"/>
+            <text x="575" y="180">도출</text>
+
+            <circle cx="605" cy="161" r="5"/>
+            <text x="615" y="180">탐색</text>
+
+            <circle cx="645" cy="161" r="5"/>
+            <text x="655" y="180">확장</text>
+
+            <circle cx="565" cy="234" r="5"/>
+            <text x="575" y="238">관찰</text>
+
+        </g>
+
+    <!-- 6. 관계 -->
+        <g class="stations-relation">
+            
+            <circle cx="452" cy="290" r="5"/>
+            <text x="462" y="294">관계_침전</text>
+
+            <circle cx="452" cy="329" r="5"/>
+            <text x="462" y="333">관계_낙하</text>
+
+            <circle cx="474" cy="369" r="5"/>
+            <text x="484" y="373">관계_시간</text>
+
+            <circle cx="521" cy="464" r="5"/>
+            <text x="531" y="468">관계</text>
+
+        </g>
+
+
+    </g>
+  
+</svg>
+</div>
+</div>
+
+
+<!--화면초기화버튼-->
+<button id="reset-button">↺</button>
+
+
+
+
+
+
+
+
+
+
+
+
+<!--자바스크립트-->
+
+
+<!--메인화면드래그이동기능-->
+<script>
+const container = document.querySelector(".map-container");
+
+let isDragging = false;
+let startX;
+let startY;
+let scrollLeft;
+let scrollTop;
+let hasDragged = false;
+
+container.addEventListener("pointerdown", (e) => {
+    if (e.button !== 0) return;
+
+    isDragging = true;
+    hasDragged = false;
+
+    startX = e.clientX;
+    startY = e.clientY;
+
+    scrollLeft = container.scrollLeft;
+    scrollTop = container.scrollTop;
+});
+
+container.addEventListener("pointermove", (e) => {
+    if (!isDragging) return;
+
+    const moveX = e.clientX - startX;
+    const moveY = e.clientY - startY;
+    if (Math.abs(moveX) > 5 || Math.abs(moveY) > 5) {
+    hasDragged = true;
+}
+
+    container.scrollLeft = scrollLeft - moveX;
+    container.scrollTop = scrollTop - moveY;
+});
+
+container.addEventListener("pointerup", () => {
+    isDragging = false;
+});
+
+container.addEventListener("pointerleave", () => {
+    isDragging = false;
+});
+
+
+// 노선도 확대 및 축소
+const map = document.querySelector(".map");
+
+let scale = 1;
+
+container.addEventListener("wheel", (e) => {
+    e.preventDefault();
+
+    // 마우스 위치 확인
+    const rect = container.getBoundingClientRect();
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+
+    // 확대 또는 축소 비율 결정
+    const oldScale = scale;
+
+    if (e.deltaY < 0) {
+        scale = Math.min(scale * 1.1, 3);
+    } else {
+        scale = Math.max(scale / 1.1, 0.5);
+    }
+
+    // 노선도 크기 변경
+    map.style.width = (1400 * scale) + "px";
+
+    // 마우스 위치를 중심으로 화면 이동
+    const ratio = scale / oldScale;
+
+    container.scrollLeft =
+        (container.scrollLeft + mouseX) * ratio - mouseX;
+
+    container.scrollTop =
+        (container.scrollTop + mouseY) * ratio - mouseY;
+
+}, { passive: false });
+
+
+// 노선도 초기화
+const resetButton = document.querySelector("#reset-button");
+
+resetButton.addEventListener("click", () => {
+    scale = 1;
+
+    map.style.width = "1400px";
+
+    setInitialView();
+});
+
+
+// 처음 화면을 프로젝트_땅을 가르는 기준 역에 맞추기
+const mapLeft = 0;
+const mapTop = 0;
+
+function setInitialView() {
+    const stationX = 140 * (1400 / 1031);
+    const stationY = 657 * (1400 / 1031);
+
+    container.scrollLeft =
+        mapLeft + stationX - container.clientWidth / 2;
+
+    container.scrollTop =
+        mapTop + stationY - container.clientHeight / 2;
+}
+
+window.addEventListener("load", setInitialView);
+
+
+
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
