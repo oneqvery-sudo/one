@@ -1,464 +1,141 @@
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>河圖洛書</title>
-
-<link rel="stylesheet" href="style.css">
-
+    <title>나무</title>
+    <link rel="stylesheet" href="../style.css">
 </head>
+
 <body>
 
-<!--설명-->
-<div id="intro-text">
-    <h1>河圖洛書</h1>
-    <p>art_archive</p>
-    <a href="https://www.instagram.com/oneq_ery/?hl=ko%2F" target="_blank">INSTAGRAM</a>
-</div>
+<!-- 나무 시리즈 노선도-->
+
+<div class="series-map">
+    <div class="map-track">
+
+        <svg viewBox="0 0 900 100"
+             width="900"
+             height="100">
 
 
+        <!-- 노선 -->
+        <line id="map-line"
+            x1="60" y1="35" x2="840" y2="35"
+            stroke="#888"
+            stroke-width="3"/>
 
+        <!-- 이동하는 빛 -->
+        <line id="moving-light"
+            x1="60" y1="35" x2="100" y2="35"
+            stroke="#f5c542"
+            stroke-width="4"
+            stroke-linecap="round"
+            style="filter: drop-shadow(0 0 5px #f5c542);"/>
 
-<!--노선도-->
-<div class="map-container">
-    <div class="map-stage">
+        <!-- 역 1 -->
+        <g class="map-station">
+            <circle cx="0" cy="35" r="7"/>
+            <text x="0" y="65">바라보기</text>
+        </g>
 
+        <!-- 역 2 -->
+        <g class="map-station">
+            <circle cx="0" cy="35" r="7"/>
+            <text x="0" y="65">덮히기</text>
+        </g>
 
-        <!--메인화면의 노선도-->
-        <svg class="map" viewBox="0 0 1200 730">
+        <!-- 역 3 -->
+        <g class="map-station">
+            <circle cx="0" cy="35" r="7"/>
+            <text x="0" y="65">더하기</text>
+        </g>
 
-            <!-- 감상 노선 -->
-            <path d="M 376 608 V 118 H 811 V 657 H 140"
-                fill="none" 
-                stroke="black" 
-                stroke-width="2"/>
+        <!-- 역 4 -->
+        <g class="map-station">
+            <circle cx="0" cy="35" r="7"/>
+            <text x="0" y="65">떠올리기</text>
+        </g>
 
-            <!-- 검은빛 노선 -->
-            <path d="M 408 145 V 201 H 694 V 239 H 642 V 409"
-                fill="none" 
-                stroke="black" 
-                stroke-width="2"/>
+        <!-- 역 5 -->
+        <g class="map-station">
+            <circle cx="0" cy="35" r="7"/>
+            <text x="0" y="65">닿기</text>
+        </g>
 
-            <!-- 검은화면 노선 -->
-            <path d="M 565 161 V 234"
-                fill="none" 
-                stroke="black" 
-                stroke-width="2"/>
+        <!-- 역 6 -->
+        <g class="map-station">
+            <circle cx="0" cy="35" r="7"/>
+            <text x="0" y="65">얽히기</text>
+        </g>
 
-            <path d="M 565 161 H 684"
-                fill="none" 
-                stroke="black" 
-                stroke-width="2"/>
-
-            <!-- 관계 노선 -->
-            <path d="M 452 244 V 329 L 474 369 L 494 409 L 521 464"
-                fill="none" 
-                stroke="black" 
-                stroke-width="2"/>
-
-            <!-- 나무노선 -->
-            <path d="M 260 409 H 740 V 467 H 886"
-                fill="none" 
-                stroke="black" 
-                stroke-width="2"/>
-
-            <!-- 음양노선 -->
-            <path d="M 467 640
-                L 635 449
-                H 686
-                V 375
-                L 747 329"
-                fill="none"
-                stroke="black"
-                stroke-width="2"/>
-
-
-
-            <!-- 역 -->
-            <g class="stations">
-            
-
-            <!-- 1. 감상 -->
-            <g class="stations-reflection">
-
-                <circle cx="376" cy="118" r="5"/>
-                <text 
-                    class="artwork-title"
-                    x="376" y="102" 
-                    text-anchor="middle"
-                    stroke="white" 
-                    stroke-width="3" 
-                    paint-order="stroke"
-                    stroke-linejoin="round">
-                    말의 고민_나비는 나비?
-                </text>
-
-                <circle cx="811" cy="118" r="5"/>
-                <text
-                    class="artwork-title"
-                    x="811" y="102" 
-                    text-anchor="middle"
-                    stroke="white" 
-                    stroke-width="3" 
-                    paint-order="stroke"
-                    stroke-linejoin="round">
-                    빛나지 않아요_어떤 형태로든 앞으로 나가는
-                </text>
-
-                <circle cx="811" cy="657" r="5"/>
-                <text
-                    class="artwork-title"
-                    x="811" y="673" 
-                    text-anchor="middle"
-                    stroke="white" 
-                    stroke-width="3" 
-                    paint-order="stroke"
-                    stroke-linejoin="round">
-                    소년이온다_영웅과 인간
-                </text>
-
-                <circle cx="140" cy="657" r="5"/>
-                <text 
-                    class="artwork-title"
-                    x="140" y="673" 
-                    text-anchor="middle"
-                    stroke="white" 
-                    stroke-width="3"
-                    paint-order="stroke"
-                    stroke-linejoin="round">
-                    프로젝트_땅을 가르는 기준
-                </text>
-
-            </g>
-
-
-            <!-- 2. 나무 -->
-                <g class="stations-tree">
-
-                    <g class="station" onclick="if (!hasDragged) transitionTo('tree/#tree-6')">
-                        <circle cx="494" cy="409" r="5"/>
-                        <text 
-                            class="artwork-title"
-                            x="494" y="425"
-                            text-anchor="middle"
-                            stroke="white" 
-                            stroke-width="3" 
-                            paint-order="stroke"
-                            stroke-linejoin="round">
-                            얽히기</text>
-                    </g>
-                    
-                    <g class="station" onclick="if (!hasDragged) transitionTo('tree/#tree-5')">
-                        <circle cx="642" cy="409" r="5"/>
-                        <text 
-                            class="artwork-title"
-                            x="642" y="425"
-                            text-anchor="middle"
-                            stroke="white" 
-                            stroke-width="3" 
-                            paint-order="stroke"
-                            stroke-linejoin="round"
-                            >닿기</text>
-                    </g>
-
-                    <g class="station" onclick="if (!hasDragged) transitionTo('tree/#tree-4')">
-                    <circle cx="686" cy="409" r="5"/>
-                    <text 
-                        class="artwork-title"
-                        x="686" y="425"
-                        text-anchor="middle"
-                        stroke="white" 
-                        stroke-width="3" 
-                        paint-order="stroke"
-                        stroke-linejoin="round"
-                        >떠올리기</text>
-                    </g>
-                
-                    <g class="station" onclick="if (!hasDragged) transitionTo('tree/#tree-3')">
-                        <circle cx="740" cy="409" r="5"/>
-                        <text
-                            class="artwork-title"
-                            x="740" y="425"
-                            text-anchor="middle"
-                            stroke="white" 
-                            stroke-width="3" 
-                            paint-order="stroke"
-                            stroke-linejoin="round"
-                            >더하기</text>
-                    </g>
-
-                    <g class="station" onclick="if (!hasDragged) transitionTo('tree/#tree-2')">
-                        <circle cx="740" cy="467" r="5"/>
-                        <text 
-                            class="artwork-title"
-                            x="740" y="483"
-                            text-anchor="middle"
-                            stroke="white" 
-                            stroke-width="3" 
-                            paint-order="stroke"
-                            stroke-linejoin="round"
-                            >덮히기</text>
-                    </g>
-
-                    <g class="station" onclick="if (!hasDragged) transitionTo('tree/#tree-1')">
-                        <circle cx="886" cy="467" r="5"/>
-                        <text 
-                            class="artwork-title"
-                            x="886" y="483"
-                            text-anchor="middle"
-                            stroke="white" 
-                            stroke-width="3" 
-                            paint-order="stroke"
-                            stroke-linejoin="round"
-                            >바라보기</text>
-                    </g>
-
-                </g>
-
-
-            <!-- 3. 음양 -->
-            <g class="stations-yin-yang">
-
-                    <circle cx="747" cy="329" r="5"/>
-                    <text 
-                        class="artwork-title"
-                        x="747" y="345"
-                        text-anchor="middle"
-                        stroke="white" 
-                        stroke-width="3" 
-                        paint-order="stroke"
-                        stroke-linejoin="round"
-                        >쉼</text>
-
-                    <circle cx="686" cy="375" r="5"/>
-                    <text 
-                        class="artwork-title"
-                        x="686" y="391"
-                        text-anchor="middle"
-                        stroke="white" 
-                        stroke-width="3" 
-                        paint-order="stroke"
-                        stroke-linejoin="round"
-                        >형제자매</text>
-
-                    <circle cx="686" cy="449" r="5"/>
-                    <text 
-                        class="artwork-title"
-                        x="686" y="465"
-                        text-anchor="middle"
-                        stroke="white" 
-                        stroke-width="3" 
-                        paint-order="stroke"
-                        stroke-linejoin="round"
-                        >우울</text>
-
-                    <circle cx="661" cy="449" r="5"/>
-                    <text 
-                        class="artwork-title"
-                        x="661" y="465"
-                        text-anchor="middle"
-                        stroke="white" 
-                        stroke-width="3" 
-                        paint-order="stroke"
-                        stroke-linejoin="round"
-                        >집중</text>
-
-                    <circle cx="635" cy="449" r="5"/>
-                    <text 
-                        class="artwork-title"
-                        x="635" y="465"
-                        text-anchor="middle"
-                        stroke="white" 
-                        stroke-width="3" 
-                        paint-order="stroke"
-                        stroke-linejoin="round"
-                        >쌍둥이</text>
-
-                    <circle cx="611" cy="476" r="5"/>
-                    <text 
-                        class="artwork-title"
-                        x="621" y="479"
-                        >독자</text>
-
-                    <circle cx="587" cy="504" r="5"/>
-                    <text 
-                        class="artwork-title"
-                        x="597" y="507"
-                        >얼굴</text>
-
-                    <circle cx="563" cy="531" r="5"/>
-                    <text 
-                        class="artwork-title"
-                        x="573" y="534"
-                        >군중</text>
-
-                    <circle cx="539" cy="558" r="5"/>
-                    <text 
-                        class="artwork-title"
-                        x="549" y="561"
-                        >죽음</text>
-
-                    <circle cx="515" cy="585" r="5"/>
-                    <text 
-                        class="artwork-title"
-                        x="525" y="588"
-                        >사진</text>
-
-                    <circle cx="491" cy="613" r="5"/>
-                    <text 
-                        class="artwork-title"
-                        x="501" y="616"
-                        >숲0</text>
-
-                </g>
-
-
-            <!-- 4. 검은빛 -->
-                <g class="stations-black-light">
-            
-                    <circle cx="408" cy="201" r="5"/>
-                    <text 
-                        class="artwork-title"
-                        x="408" y="216"
-                        text-anchor="middle"
-                        stroke="white" 
-                        stroke-width="3" 
-                        paint-order="stroke"
-                        stroke-linejoin="round"
-                        >커튼</text>
-
-                    <circle cx="694" cy="201" r="5"/>
-                    <text 
-                        class="artwork-title"
-                        x="694" y="216"
-                        text-anchor="middle"
-                        stroke="white" 
-                        stroke-width="3" 
-                        paint-order="stroke"
-                        stroke-linejoin="round"
-                        >벤치</text>
-
-                    <circle cx="694" cy="239" r="5"/>
-                    <text  
-                        class="artwork-title"
-                        x="694" y="255"
-                        text-anchor="middle"
-                        stroke="white" 
-                        stroke-width="3" 
-                        paint-order="stroke"
-                        stroke-linejoin="round"
-                        >운동장</text>
-
-                    <circle cx="642" cy="239" r="5"/>
-                    <text 
-                        class="artwork-title"
-                        x="642" y="255"
-                        text-anchor="middle"
-                        stroke="white" 
-                        stroke-width="3" 
-                        paint-order="stroke"
-                        stroke-linejoin="round"
-                        >건물</text>
-
-                </g>
-
-
-            <!-- 5. 검은화면 -->
-                <g class="stations-black-screen">
-
-                    <circle cx="565" cy="161" r="5"/>
-                    <text 
-                        class="artwork-title"
-                        x="565" y="177"
-                        text-anchor="middle"
-                        stroke="white" 
-                        stroke-width="3" 
-                        paint-order="stroke"
-                        stroke-linejoin="round"
-                        >도출</text>
-
-                    <circle cx="605" cy="161" r="5"/>
-                    <text 
-                        class="artwork-title"
-                        x="605" y="177"
-                        text-anchor="middle"
-                        stroke="white" 
-                        stroke-width="3" 
-                        paint-order="stroke"
-                        stroke-linejoin="round"
-                        >탐색</text>
-
-                    <circle cx="645" cy="161" r="5"/>
-                    <text 
-                        class="artwork-title"
-                        x="645" y="177"
-                        text-anchor="middle"
-                        stroke="white" 
-                        stroke-width="3" 
-                        paint-order="stroke"
-                        stroke-linejoin="round"
-                        >확장</text>
-
-                    <circle cx="565" cy="234" r="5"/>
-                    <text 
-                        class="artwork-title"
-                        x="565" y="250"
-                        text-anchor="middle"
-                        stroke="white" 
-                        stroke-width="3" 
-                        paint-order="stroke"
-                        stroke-linejoin="round"
-                        >관찰</text>
-
-                </g>
-
-            <!-- 6. 관계 -->
-                <g class="stations-relation">
-                    
-                    <circle cx="452" cy="290" r="5"/>
-                    <text 
-                        class="artwork-title"
-                        x="462" y="292"
-                        >관계_침전</text>
-
-                    <circle cx="452" cy="329" r="5"/>
-                    <text 
-                        class="artwork-title"
-                        x="462" y="331"
-                        >관계_낙하</text>
-
-                    <circle cx="474" cy="369" r="5"/>
-                    <text 
-                        class="artwork-title"
-                        x="484" y="371"
-                        >관계_시간</text>
-
-                    <circle cx="521" cy="464" r="5"/>
-                    <text 
-                        class="artwork-title"
-                        x="521" y="480"
-                        text-anchor="middle"
-                        stroke="white" 
-                        stroke-width="3" 
-                        paint-order="stroke"
-                        stroke-linejoin="round"
-                        >관계</text>
-
-                </g>
-
-
-            </g>
-        
-        </svg>
+    </svg>
     </div>
 </div>
 
 
-<!--화면초기화버튼-->
-<button id="reset-button">↺</button>
+
+<!--작품이미지-->
+
+    <div class="artwork-container">
+        <div class="artwork" id="tree-1">
+            <a href="artworks/artwork1.html">
+                <img src="images/tree1.jpg" alt="바라보기">
+            </a>
+        </div>
+
+        <div class="artwork" id="tree-2">
+            <a href="artworks/artwork2.html">
+                <img src="images/tree2.png" alt="덮히기">
+            </a>
+        </div>
+
+        <div class="artwork" id="tree-3">
+            <a href="artworks/artwork3.html">
+                <img src="images/tree3.png" alt="더하기">
+            </a>
+        </div>
+
+        <div class="artwork" id="tree-4">
+            <a href="artworks/artwork4.html">
+                <img src="images/tree4.png" alt="떠올리기">
+            </a>
+        </div>
+
+        <div class="artwork" id="tree-5">
+            <a href="artworks/artwork5.html">
+                <img src="images/tree5.png" alt="닿기">
+            </a>
+        </div>
+
+        <div class="artwork" id="tree-6">
+            <a href="artworks/artwork6.html">
+                <img src="images/tree6.png" alt="얽히기">
+            </a>
+        </div>
 
 
+
+    </div>
+
+
+
+
+
+
+<!--메인페이지이동-->
+
+<div class="map-buttons">
+    <div class="left-buttons">
+        <a href="#" class="home-button" onclick="return transitionToMain()">MAIN</a>
+        <button class="first-button" onclick="goToArtwork(0)">처음</button>
+    </div>
+
+
+    <button class="last-button" onclick="goToArtwork(5)">마지막</button>
+
+</div>
 
 
 <!-- 페이지 전환 모션 -->
@@ -488,179 +165,324 @@
 
 
 
+
+
+
 <!--자바스크립트-->
 
 <script>
+const container = document.querySelector('.artwork-container');
+const artworks = document.querySelectorAll('.artwork');
 
 
-//메인화면드래그이동기능
-const container = document.querySelector(".map-container");
+    function updateSpaces() {
+        const first = artworks[0];
+        const last = artworks[artworks.length - 1];
 
-let isDragging = false;
-let startX;
-let startY;
-let scrollLeft;
-let scrollTop;
-let hasDragged = false;
+        const startSpace = Math.max(
+            0,
+            (container.clientWidth - first.offsetWidth) / 2
+        );
 
-container.addEventListener("pointerdown", (e) => {
-    if (e.button !== 0) return;
+        const endSpace = Math.max(
+            0,
+            (container.clientWidth - last.offsetWidth) / 2
+        );
 
-    isDragging = true;
-    hasDragged = false;
-
-    startX = e.clientX;
-    startY = e.clientY;
-
-    scrollLeft = container.scrollLeft;
-    scrollTop = container.scrollTop;
-});
-
-container.addEventListener("pointermove", (e) => {
-    if (!isDragging) return;
-
-    const moveX = e.clientX - startX;
-    const moveY = e.clientY - startY;
-    if (Math.abs(moveX) > 5 || Math.abs(moveY) > 5) {
-        hasDragged = true;
-
-        document.querySelector("#intro-text")?.classList.add("hidden");
+        container.style.setProperty('--start-space', `${startSpace}px`);
+        container.style.setProperty('--end-space', `${endSpace}px`);
     }
 
-    container.scrollLeft = scrollLeft - moveX;
-    container.scrollTop = scrollTop - moveY;
-});
+    // 휠
+    let wheelLocked = false;
 
-container.addEventListener("pointerup", () => {
-    isDragging = false;
-});
+    container.addEventListener('wheel', (e) => {
+        e.preventDefault();
 
-container.addEventListener("pointerleave", () => {
-    isDragging = false;
-});
+        // 이동 애니메이션 중에는 추가 입력 방지
+        if (wheelLocked) return;
+
+        const activeArtwork = document.querySelector('.artwork.active');
+        const currentIndex = Array.from(artworks).indexOf(activeArtwork);
+
+        if (currentIndex === -1) return;
+
+        // 휠 방향에 따라 다음 또는 이전 작품 선택
+        const direction = e.deltaY > 0 ? 1 : -1;
+        const nextIndex = Math.max(
+            0,
+            Math.min(artworks.length - 1, currentIndex + direction)
+        );
+
+        if (nextIndex === currentIndex) return;
+
+        wheelLocked = true;
+
+        centerArtwork(artworks[nextIndex]);
+
+        // 이동이 끝나면 다음 휠 입력 허용
+        setTimeout(() => {
+            wheelLocked = false;
+        }, 1100);
+
+    }, { passive: false });
 
 
 
-// 노선도 확대 및 축소
-const map = document.querySelector(".map");
+function updateMovingLight() {
+    const light = document.querySelector('#moving-light');
+    const containerRect = container.getBoundingClientRect();
 
-let scale = 1;
+    // 각 작품의 실제 중앙 좌표 계산
+    const centers = Array.from(artworks).map(artwork => {
+        const rect = artwork.getBoundingClientRect();
 
-container.addEventListener("wheel", (e) => {
-    e.preventDefault();
+        return rect.left - containerRect.left
+            + container.scrollLeft
+            + rect.width / 2;
+    });
 
-    // 마우스 위치 확인
-    const rect = container.getBoundingClientRect();
-    const mouseX = e.clientX - rect.left;
-    const mouseY = e.clientY - rect.top;
+    // 현재 화면 중앙의 콘텐츠 좌표
+    const currentCenter =
+        container.scrollLeft + container.clientWidth / 2;
 
-    // 확대 또는 축소 비율 결정
-    const oldScale = scale;
+    let x = centers[0];
+    let progress = 0;
 
-    if (e.deltaY < 0) {
-        scale = Math.min(scale * 1.1, 3);
-    } else {
-        scale = Math.max(scale / 1.1, 0.5);
+    // 현재 위치가 어느 두 역 사이인지 계산
+    for (let i = 0; i < centers.length - 1; i++) {
+        if (currentCenter >= centers[i]
+            && currentCenter <= centers[i + 1]) {
+
+            progress =
+                (currentCenter - centers[i])
+                / (centers[i + 1] - centers[i]);
+
+            x = centers[i]
+                + (centers[i + 1] - centers[i]) * progress;
+
+            break;
+        }
+
+        if (currentCenter > centers[i + 1]) {
+            x = centers[i + 1];
+        }
     }
 
-    // 노선도 크기 변경
-    map.style.width = (1600 * scale) + "px";
+    // 역에 가까워질수록 빛의 길이를 줄임
+    const length = 40 * Math.min(progress, 1 - progress) * 2;
 
-    // 마우스 위치를 중심으로 화면 이동
-    const ratio = scale / oldScale;
-
-    container.scrollLeft =
-    mapLeft + (container.scrollLeft + mouseX - mapLeft) * ratio - mouseX;
-
-    container.scrollTop =
-    mapTop + (container.scrollTop + mouseY - mapTop) * ratio - mouseY;
-
-}, { passive: false });
-
-
-// 노선도 초기화
-const resetButton = document.querySelector("#reset-button");
-
-resetButton.addEventListener("click", () => {
-    scale = 3;
-
-    map.style.width = "4800px";
-
-    setInitialView();
-
-    document.querySelector("#intro-text")?.classList.remove("hidden");
-    hasDragged = false;
-});
-
-// 처음 화면을 프로젝트_땅을 가르는 기준 역에 맞추기
-const mapLeft = 1000;
-const mapTop = 1000;
-
-function setInitialView() {
-    const mapWidth = 1600 * scale;
-    const ratio = mapWidth / 1200;
-
-    const stationX = 140 * ratio;
-    const stationY = 657 * ratio;
-
-    container.scrollLeft =
-        mapLeft + stationX - container.clientWidth / 2;
-
-    container.scrollTop =
-        mapTop + stationY - container.clientHeight / 2;
+    light.setAttribute('x1', x - length / 2);
+    light.setAttribute('x2', x + length / 2);
+    light.style.opacity = length < 2 ? 0 : 1;
 }
 
-let initialScrollLeft;
-let initialScrollTop;
+function updateMapPosition() {
+    const map = document.querySelector('.map-track');
+    const svg = map.querySelector('svg');
+    const line = document.querySelector('#map-line');
+    const stations = document.querySelectorAll('.map-station');
+
+    const containerRect = container.getBoundingClientRect();
+    const mapWidth = container.scrollWidth;
+
+    // 노선도의 너비를 작품 전체 영역에 맞춤
+    map.style.width = `${mapWidth}px`;
+    svg.setAttribute('width', mapWidth);
+    svg.setAttribute('viewBox', `0 0 ${mapWidth} 100`);
+
+
+    const centers = Array.from(artworks).map(artwork => {
+    const rect = artwork.getBoundingClientRect();
+
+        return rect.left - containerRect.left
+            + container.scrollLeft
+            + rect.width / 2;
+    });
+
+    // 각 역을 해당 작품의 중앙에 배치
+    centers.forEach((x, index) => {
+    stations[index].setAttribute(
+            'transform',
+            `translate(${x}, 0)`
+        );
+    });
+
+    // 노선의 시작점과 끝점도 작품 위치에 맞춤
+    const lineStart = Math.max(centers[0], 180);
+
+    line.setAttribute('x1', lineStart);
+    line.setAttribute('x2', centers[centers.length - 1]);
+
+
+
+    // 작품 스크롤과 같은 거리만큼 노선도 이동
+    map.style.transform =
+        `translateX(${-container.scrollLeft}px)`;
+}
+
+function updateActiveArtwork() {
+    const center = container.getBoundingClientRect().left
+        + container.clientWidth / 2;
+
+    let closestArtwork = null;
+    let minDistance = Infinity;
+
+    artworks.forEach(artwork => {
+        const rect = artwork.getBoundingClientRect();
+        const artworkCenter = rect.left + rect.width / 2;
+        const distance = Math.abs(center - artworkCenter);
+
+        if (distance < minDistance) {
+            minDistance = distance;
+            closestArtwork = artwork;
+        }
+    });
+
+    const stations = document.querySelectorAll('.map-station');
+
+    artworks.forEach((artwork, index) => {
+        const isActive = artwork === closestArtwork;
+
+        artwork.classList.toggle('active', isActive);
+
+        if (stations[index]) {
+            stations[index].classList.toggle('active', isActive);
+        }
+    });
+
+}
+
+function centerArtwork(artwork) {
+    const containerRect = container.getBoundingClientRect();
+    const artworkRect = artwork.getBoundingClientRect();
+
+    const currentCenter = containerRect.left + container.clientWidth / 2;
+    const artworkCenter = artworkRect.left + artworkRect.width / 2;
+    const distance = artworkCenter - currentCenter;
+
+    if (Math.abs(distance) < 5) return;
+
+    const start = container.scrollLeft;
+    const target = start + distance;
+    const duration = 1200;
+    const startTime = performance.now();
+
+    function animate(time) {
+        const progress = Math.min((time - startTime) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+
+        container.scrollLeft = start + (target - start) * eased;
+
+        if (progress < 1) {
+            requestAnimationFrame(animate);
+        }
+    }
+
+    requestAnimationFrame(animate);
+}
+
+function goToArtwork(index) {
+    centerArtwork(artworks[index]);
+}
 
 window.addEventListener("load", () => {
-    scale = 3;
-    map.style.width = (1600 * scale) + "px";
+    const params = new URLSearchParams(window.location.search);
+    const artworkIndex = Number(params.get("artwork"));
 
-    setInitialView();
+    if (params.has("artwork") && artworks[artworkIndex]) {
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+                goToArtwork(artworkIndex);
+            });
+        });
+    }
+});
 
-    initialScrollLeft = container.scrollLeft;
-    initialScrollTop = container.scrollTop;
+
+    let scrollTimer;
+
+    //스크롤
+    let updateFrame = null;
+
+    container.addEventListener('scroll', () => {
+        if (updateFrame) return;
+
+        updateFrame = requestAnimationFrame(() => {
+            updateActiveArtwork();
+            updateMovingLight();
+            updateMapPosition();
+
+            updateFrame = null;
+        });
+    });
+
+// 메인페이지에서 선택한 작품을 화면 중앙에 배치
+window.addEventListener("load", () => {
+    const targetId = location.hash.substring(1);
+
+    if (!targetId) return;
+
+    const container = document.querySelector(".artwork-container");
+    const target = document.getElementById(targetId);
+
+    if (!container || !target) return;
+
+    requestAnimationFrame(() => {
+        const containerRect = container.getBoundingClientRect();
+        const targetRect = target.getBoundingClientRect();
+
+        const moveX =
+            targetRect.left - containerRect.left
+            + targetRect.width / 2
+            - container.clientWidth / 2;
+
+        container.scrollLeft += moveX;
+    });
 });
 
 
 
 
+// 메인페이지로 돌아가는 전환 모션
 
-// 서브페이지로 이동하는 전환 모션
-let transitionTimer = null;
-
-function transitionTo(url) {
+function transitionToMain() {
     const screen = document.querySelector(".transition-screen");
-
-    if (!screen) {
-        location.href = url;
-        return;
-    }
-
-    clearTimeout(transitionTimer);
 
     screen.classList.remove("play", "reverse");
     screen.style.display = "flex";
 
     void screen.offsetWidth;
 
-    screen.classList.add("play");
+    screen.classList.add("reverse", "play");
 
-    transitionTimer = setTimeout(() => {
-        location.href = url;
-    }, 10000);
+    setTimeout(() => {
+        location.href = "../index.html";
+    }, 9000);
+
+    return false;
 }
 
 
+
+
+window.addEventListener('load', () => {
+    updateActiveArtwork();
+    updateSpaces();
+    updateMovingLight();
+    updateMapPosition();
+});
+
+window.addEventListener('resize', () => {
+    updateSpaces();
+    updateMovingLight();
+});
 
 
 
 
 
 </script>
-
-
 
 
 
