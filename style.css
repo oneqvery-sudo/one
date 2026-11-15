@@ -5,6 +5,64 @@ body {
 }
 
 
+/*메인페이지*/
+
+/*설명문*/
+#intro-text {
+    position: fixed;
+    top: 15%;
+    left: 10%;
+    transform: translate(-50%, -50%);
+
+    z-index: 10000;
+    pointer-events: auto;
+
+    opacity: 1;
+    transition: opacity 0.8s ease;
+}
+
+#intro-text.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+
+
+#intro-text h1 {
+    margin-bottom: 5px;
+}
+
+#intro-text p {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+#intro-text a {
+    pointer-events: auto;
+    cursor: pointer;
+    margin-top: 0;
+}
+
+
+
+
+
+
+
+/* 역 글자 */
+    .map text.artwork-title {
+        font-size: 6px;
+    }
+
+/* 기타 글자 */
+    .map text:not(.artwork-title) {
+        font-size: 10px;
+    }
+
+
+
+
+
 
 /*메인화면이동*/
     .map-container {
@@ -26,8 +84,19 @@ body {
         position: relative;
         width: 8000px;
         height: 6000px;
-        background: rgba(0, 0, 0, 0.05);
     }
+
+
+/*노선도 크기*/
+    .map {
+        width: 1600px;
+        height: auto;
+    }
+
+
+
+
+
 
 /* 노선도 초기 위치 */
     .map {
@@ -91,7 +160,7 @@ body {
     }
 
     .station:hover text {
-        fill: gray;
+        fill: #f5c542;
     }
 
     .station circle {
@@ -100,11 +169,155 @@ body {
 
     .station:hover circle {
         r: 8;
-        fill: gray;
+        fill: #f5c542;
     }
 
 
 
+
+
+
+
+
+
+/* 페이지 전환 모션 */
+
+.transition-screen {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: white;
+}
+
+.transition-screen svg {
+    width: 500px;
+    max-width: 80%;
+    overflow: visible;
+}
+
+/* 연결선 */
+
+/* 기본 노선 */
+.base-line {
+    stroke: black;
+    stroke-width: 2;
+}
+
+/* 노선 위를 이동하는 빛 */
+.light-line {
+    stroke: #f5a623;
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-dasharray: 15 285;
+    stroke-dashoffset: 15;
+}
+
+
+/* 왼쪽 역: 처음에는 켜져 있음 */
+.start-point {
+    fill: #f5a623;
+}
+
+/* 오른쪽 역: 처음에는 꺼져 있음 */
+.end-point {
+    fill: black;
+}
+
+/* 왼쪽 역 깜빡임 */
+@keyframes start-point {
+    0%, 15% {
+        fill: #f5a623;
+    }
+
+    25% {
+        fill: black;
+    }
+
+    35% {
+        fill: #f5a623;
+    }
+
+    45%, 100% {
+        fill: black;
+    }
+}
+
+/* 빛선 이동 */
+@keyframes draw-line {
+    0%, 35% {
+        stroke-dashoffset: 15;
+        opacity: 0;
+    }
+
+    36% {
+        opacity: 1;
+    }
+
+    80% {
+        stroke-dashoffset: -300;
+        opacity: 1;
+    }
+
+    81%, 100% {
+        opacity: 0;
+    }
+}
+
+/* 오른쪽 역 깜빡인 뒤 켜짐 */
+@keyframes end-point {
+    0%, 80% {
+        fill: black;
+    }
+
+    85% {
+        fill: #f5a623;
+    }
+
+    90% {
+        fill: black;
+    }
+
+    95%, 100% {
+        fill: #f5a623;
+    }
+}
+
+/* 애니메이션 실행 */
+.transition-screen.play .light-line {
+    animation: draw-line 9s ease-in-out forwards;
+}
+
+.transition-screen.play .start-point {
+    animation: start-point 9s linear forwards;
+}
+
+.transition-screen.play .end-point {
+    animation: end-point 9s linear forwards;
+}
+
+
+
+
+
+
+/* 메인 화면으로 돌아갈 때 역방향 */
+.transition-screen.reverse .light-line,
+.transition-screen.reverse .start-point,
+.transition-screen.reverse .end-point {
+    animation-direction: reverse;
+}
+
+
+
+
+
+/* 메인페이지로 돌아갈 때 빛의 역방향 이동 */
+.moving-light.reverse {
+    animation-direction: alternate-reverse;
+}
 
 
 
@@ -119,22 +332,286 @@ body {
 
 /*서브페이지의 작품*/
 
-/* 나무 페이지 */
-
     .artwork-container {
         display: flex;
         flex-direction: row;
-        gap: 80px;
-        width: max-content;
-        padding: 100px;
+        gap: 120px;
+        width: 100%;
+        height: 80vh;
+
+        padding: 20px 0;
+        overflow-x: auto;
+        overflow-y: hidden;
+        align-items: center;
+
+        box-sizing: border-box;
+        scroll-padding-inline: 50%;
+
     }
 
+    /*양끝단 여백*/
+
+    .artwork-container::before {
+        content: "";
+        flex: 0 0 var(--start-space, 0px);
+    }
+
+    .artwork-container::after {
+        content: "";
+        flex: 0 0 var(--end-space, 0px);
+    }
+
+
+
     .artwork {
-        width: 500px;
-        height: 600px;
-        border: 1px solid black;
+        height: 54vh;
+        width: auto;
+        flex-shrink: 0;
+
         display: flex;
         align-items: center;
         justify-content: center;
+
+        
+        opacity: 0.35;
+        filter: blur(3px);
+        transition: transform 0.6s ease, opacity 0.6s ease, filter 0.6s ease;
+        position: relative;
+        transform-origin: center center;
+        z-index: 1;
+
+    }
+
+    .artwork a {
+        display: block;
+        height: 100%;
+        width: auto;
         flex-shrink: 0;
     }
+
+    .artwork img {
+        display: block;
+        height: 100%;
+        width: auto;
+        object-fit: contain;
+    }
+
+
+
+/* 선택된 작품 */
+    .artwork.active {
+        transform: translateY(-20px) scale(1.3);
+        z-index: 2;
+        opacity: 1;
+        filter: blur(0);
+    }
+
+
+
+/*페이지 스크롤 막기*/
+    html, body {
+    margin: 0;
+    overflow: hidden;
+    }
+
+    .artwork-container {
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+
+    .artwork-container::-webkit-scrollbar {
+        display: none;
+    }
+
+
+/*메인페이지이동*/
+    .map-buttons {
+        position: fixed;
+        top: 30px;
+        left: 40px;
+        right: 40px;
+        z-index: 1000;
+
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        pointer-events: none;
+    }
+
+    .left-buttons {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .map-buttons a,
+    .map-buttons button {
+        pointer-events: auto;
+        color: #333;
+        background: none;
+        border: none;
+        text-decoration: none;
+        font-size: 13px;
+        letter-spacing: 2px;
+        cursor: pointer;
+        transition: opacity 0.3s ease;
+    }
+
+    .map-buttons a:hover,
+    .map-buttons button:hover {
+        opacity: 0.5;
+    }
+
+    .home-button:hover {
+        opacity: 0.5;
+    }
+
+
+
+/* 작품시리즈 이미지 위 노선도 */
+
+    .series-map {
+        width: 100%;
+        height: 20vh;
+
+        -webkit-mask-image: linear-gradient(
+            to right,
+            transparent 0px,
+            transparent 180px,
+            black 320px,
+            black calc(100% - 320px),
+            transparent calc(100% - 180px),
+            transparent 100%
+        );
+
+        mask-image: linear-gradient(
+            to right,
+            transparent 0px,
+            transparent 180px,
+            black 320px,
+            black calc(100% - 320px),
+            transparent calc(100% - 180px),
+            transparent 100%
+        );
+        
+    }
+
+    .map-station circle {
+        fill: #888;
+        transition: fill 0.3s ease, filter 0.3s ease;
+    }
+
+    .map-station text {
+        fill: currentColor;
+        font-size: 14px;
+        text-anchor: middle;
+        font-family: sans-serif;
+        transition: fill 0.3s ease;
+    }
+
+    /* 선택된 역 */
+
+    .map-station.active circle {
+        fill: #f5c542;
+        filter: drop-shadow(0 0 5px #f5c542);
+    }
+
+    .map-station.active text {
+        fill: #f5c542;
+        font-weight: bold;
+    }
+
+
+    /*노선도 이동*/
+
+    .series-map {
+    width: 100%;
+    overflow: hidden;
+    }
+
+    .map-track {
+        height: 100px;
+        position: relative;
+        margin: 0;
+        flex-shrink: 0;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ /*작품 캡션*/
+
+ /* 개별 작품 페이지 */
+
+.back-button {
+    position: fixed;
+    top: 30px;
+    left: 40px;
+    z-index: 1000;
+
+    color: #333;
+    text-decoration: none;
+    font-size: 13px;
+    letter-spacing: 2px;
+
+    transition: opacity 0.3s ease;
+}
+
+.back-button:hover {
+    opacity: 0.5;
+}
+
+.artwork-detail {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 100px;
+
+    width: 100%;
+    min-height: 100vh;
+    padding: 100px 10%;
+    box-sizing: border-box;
+}
+
+.detail-image {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.detail-image img {
+    max-width: 100%;
+    max-height: 75vh;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+}
+
+.detail-info {
+    flex: 0 0 300px;
+    color: #333;
+}
+
+.detail-info h1 {
+    font-size: 22px;
+    font-weight: normal;
+    margin-bottom: 20px;
+}
+
+.detail-info p {
+    font-size: 13px;
+    line-height: 2;
+}
