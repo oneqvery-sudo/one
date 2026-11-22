@@ -41,6 +41,12 @@ body {
     pointer-events: auto;
     cursor: pointer;
     margin-top: 0;
+    color: black;
+    text-decoration: none;
+}
+
+#intro-text a:hover {
+    color: #f5c542;
 }
 
 
@@ -389,12 +395,41 @@ body {
         flex-shrink: 0;
     }
 
+    .artwork.placeholder {
+        width: 300px;
+        height: 400px;
+        border: 1px solid black;
+        box-sizing: border-box;
+        flex-shrink: 0;
+    }
+
+    .artwork.placeholder a {
+        display: block;
+        width: 100%;
+        height: 100%;
+    }
+
     .artwork img {
         display: block;
         height: 100%;
         width: auto;
         object-fit: contain;
+
+        max-width: 65vw;
     }
+
+    .artwork video {
+        display: block;
+        height: 100%;
+        width: auto;
+        object-fit: contain;
+        max-width: 65vw;
+    }
+
+
+
+
+
 
 
 

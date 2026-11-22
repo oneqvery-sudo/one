@@ -14,7 +14,7 @@
 <div id="intro-text">
     <h1>河圖洛書</h1>
     <p>art_archive</p>
-    <a href="https://www.instagram.com/oneq_ery/?hl=ko%2F" target="_blank">INSTAGRAM</a>
+    <a href="https://www.instagram.com/oneq_ery/?hl=ko%2F" target="_blank">@oneq_ery</a>
 </div>
 
 
@@ -82,6 +82,7 @@
             <!-- 1. 감상 -->
             <g class="stations-reflection">
 
+                <g class="station" onclick="if (!hasDragged) transitionTo('reflection/#reflection-4')">
                 <circle cx="376" cy="118" r="5"/>
                 <text 
                     class="artwork-title"
@@ -93,7 +94,9 @@
                     stroke-linejoin="round">
                     말의 고민_나비는 나비?
                 </text>
+                </g>
 
+                <g class="station" onclick="if (!hasDragged) transitionTo('reflection/#reflection-3')">
                 <circle cx="811" cy="118" r="5"/>
                 <text
                     class="artwork-title"
@@ -105,7 +108,9 @@
                     stroke-linejoin="round">
                     빛나지 않아요_어떤 형태로든 앞으로 나가는
                 </text>
+                </g>
 
+                <g class="station" onclick="if (!hasDragged) transitionTo('reflection/#reflection-2')">
                 <circle cx="811" cy="657" r="5"/>
                 <text
                     class="artwork-title"
@@ -117,7 +122,9 @@
                     stroke-linejoin="round">
                     소년이온다_영웅과 인간
                 </text>
+                </g>
 
+                <g class="station" onclick="if (!hasDragged) transitionTo('reflection/#reflection-1')">
                 <circle cx="140" cy="657" r="5"/>
                 <text 
                     class="artwork-title"
@@ -129,6 +136,7 @@
                     stroke-linejoin="round">
                     프로젝트_땅을 가르는 기준
                 </text>
+                </g>
 
             </g>
 
@@ -415,25 +423,31 @@
 
             <!-- 6. 관계 -->
                 <g class="stations-relation">
-                    
+                    <g class="station" onclick="if (!hasDragged) transitionTo('relation/#relation-4')">
                     <circle cx="452" cy="290" r="5"/>
                     <text 
                         class="artwork-title"
                         x="462" y="292"
                         >관계_침전</text>
+                    </g>
 
+                    <g class="station" onclick="if (!hasDragged) transitionTo('relation/#relation-3')">
                     <circle cx="452" cy="329" r="5"/>
                     <text 
                         class="artwork-title"
                         x="462" y="331"
                         >관계_낙하</text>
+                    </g>
 
+                    <g class="station" onclick="if (!hasDragged) transitionTo('relation/#relation-2')">
                     <circle cx="474" cy="369" r="5"/>
                     <text 
                         class="artwork-title"
                         x="484" y="371"
                         >관계_시간</text>
+                    </g>
 
+                    <g class="station" onclick="if (!hasDragged) transitionTo('relation/#relation-1')">
                     <circle cx="521" cy="464" r="5"/>
                     <text 
                         class="artwork-title"
@@ -444,6 +458,7 @@
                         paint-order="stroke"
                         stroke-linejoin="round"
                         >관계</text>
+                    </g>
 
                 </g>
 
@@ -540,6 +555,16 @@ container.addEventListener("pointerleave", () => {
 });
 
 
+//메인페이지 글자 숨기기
+function hideIntroText() {
+    const intro = document.getElementById("intro-text");
+
+    if (intro) {
+        intro.classList.add("hidden");
+    }
+}
+
+
 
 // 노선도 확대 및 축소
 const map = document.querySelector(".map");
@@ -548,6 +573,8 @@ let scale = 1;
 
 container.addEventListener("wheel", (e) => {
     e.preventDefault();
+
+    hideIntroText();
 
     // 마우스 위치 확인
     const rect = container.getBoundingClientRect();
@@ -631,6 +658,8 @@ window.addEventListener("load", () => {
 let transitionTimer = null;
 
 function transitionTo(url) {
+    hideIntroText();
+
     const screen = document.querySelector(".transition-screen");
 
     if (!screen) {
