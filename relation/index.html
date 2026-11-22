@@ -1,0 +1,478 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>관계</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+
+<body>
+
+<!-- 노선도-->
+
+<div class="series-map">
+    <div class="map-track">
+
+        <svg viewBox="0 0 900 100"
+             width="900"
+             height="100">
+
+
+        <!-- 노선 -->
+        <line id="map-line"
+            x1="60" y1="35" x2="840" y2="35"
+            stroke="#888"
+            stroke-width="3"/>
+
+        <!-- 이동하는 빛 -->
+        <line id="moving-light"
+            x1="60" y1="35" x2="100" y2="35"
+            stroke="#f5c542"
+            stroke-width="4"
+            stroke-linecap="round"
+            style="filter: drop-shadow(0 0 5px #f5c542);"/>
+
+        <!-- 역 1 -->
+        <g class="map-station">
+            <circle cx="0" cy="35" r="7"/>
+            <text x="0" y="65">얽히기</text>
+        </g>
+
+        <!-- 역 2 -->
+        <g class="map-station">
+            <circle cx="0" cy="35" r="7"/>
+            <text x="0" y="65">관계</text>
+        </g>
+
+        <!-- 역 3 -->
+        <g class="map-station">
+            <circle cx="0" cy="35" r="7"/>
+            <text x="0" y="65">관계_시간</text>
+        </g>
+
+        <!-- 역 4 -->
+        <g class="map-station">
+            <circle cx="0" cy="35" r="7"/>
+            <text x="0" y="65">관계_낙하</text>
+        </g>
+
+        <!-- 역 5 -->
+        <g class="map-station">
+            <circle cx="0" cy="35" r="7"/>
+            <text x="0" y="65">관계_침전</text>
+        </g>
+
+
+        </svg>
+    </div>
+</div>
+
+
+
+<!--작품이미지-->
+
+    <div class="artwork-container">
+        <div class="artwork">
+            <a href="artworks/artwork0.html">
+                <img src="../tree/images/tree6.png" alt="얽히기">
+            </a>
+        </div>        
+
+        <div class="artwork" id="relation-1">
+            <a href="artworks/artwork1.html">
+                <img src="images/relation1.jpg" alt="관계">
+            </a>
+        </div>
+
+        <div class="artwork" id="relation-2">
+            <a href="artworks/artwork2.html">
+                <img src="images/relation2.jpg" alt="관계_시간">
+            </a>
+        </div>
+
+        <div class="artwork placeholder" id="relation-3" data-title="관계_낙하">
+            <a href="artworks/artwork3.html">
+            </a>
+        </div>
+
+        <div class="artwork placeholder" id="relation-4" data-title="관계_침전">
+            <a href="artworks/artwork4.html">
+            </a>
+        </div>
+
+
+
+    </div>
+
+
+
+
+
+
+<!--서브페이지 앞뒤 이동-->
+
+<div class="map-buttons">
+    <div class="left-buttons">
+        <a href="#" class="home-button" onclick="return transitionToMain()">MAIN</a>
+        <button class="first-button" onclick="goToArtwork(0)">처음</button>
+    </div>
+
+
+    <button class="last-button" onclick="goToArtwork(4)">마지막</button>
+
+</div>
+
+
+<!-- 페이지 전환 모션 -->
+<div class="transition-screen">
+    <svg viewBox="0 0 500 100">
+
+        <!-- 두 점을 잇는 선 -->
+        <line x1="100" y1="50" x2="400" y2="50" class="base-line"/>
+        <line x1="100" y1="50" x2="400" y2="50" class="light-line"/>
+
+        <!-- 왼쪽 점 -->
+        <circle cx="100" cy="50" r="11"
+                class="start-point"/>
+
+        <!-- 오른쪽 점 -->
+        <circle cx="400" cy="50" r="11"
+                class="end-point"/>
+
+    </svg>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<!--자바스크립트-->
+
+<script>
+const container = document.querySelector('.artwork-container');
+const artworks = document.querySelectorAll('.artwork');
+
+
+    function updateSpaces() {
+        const first = artworks[0];
+        const last = artworks[artworks.length - 1];
+
+        const startSpace = Math.max(
+            0,
+            (container.clientWidth - first.offsetWidth) / 2
+        );
+
+        const endSpace = Math.max(
+            0,
+            (container.clientWidth - last.offsetWidth) / 2
+        );
+
+        container.style.setProperty('--start-space', `${startSpace}px`);
+        container.style.setProperty('--end-space', `${endSpace}px`);
+    }
+
+    // 휠
+    let wheelLocked = false;
+
+    container.addEventListener('wheel', (e) => {
+        e.preventDefault();
+
+        // 이동 애니메이션 중에는 추가 입력 방지
+        if (wheelLocked) return;
+
+        const activeArtwork = document.querySelector('.artwork.active');
+        const currentIndex = Array.from(artworks).indexOf(activeArtwork);
+
+        if (currentIndex === -1) return;
+
+        // 휠 방향에 따라 다음 또는 이전 작품 선택
+        const direction = e.deltaY > 0 ? 1 : -1;
+        const nextIndex = Math.max(
+            0,
+            Math.min(artworks.length - 1, currentIndex + direction)
+        );
+
+        if (nextIndex === currentIndex) return;
+
+        wheelLocked = true;
+
+        centerArtwork(artworks[nextIndex]);
+
+        // 이동이 끝나면 다음 휠 입력 허용
+        setTimeout(() => {
+            wheelLocked = false;
+        }, 1100);
+
+    }, { passive: false });
+
+
+
+function updateMovingLight() {
+    const light = document.querySelector('#moving-light');
+    const containerRect = container.getBoundingClientRect();
+
+    // 각 작품의 실제 중앙 좌표 계산
+    const centers = Array.from(artworks).map(artwork => {
+        const rect = artwork.getBoundingClientRect();
+
+        return rect.left - containerRect.left
+            + container.scrollLeft
+            + rect.width / 2;
+    });
+
+    // 현재 화면 중앙의 콘텐츠 좌표
+    const currentCenter =
+        container.scrollLeft + container.clientWidth / 2;
+
+    let x = centers[0];
+    let progress = 0;
+
+    // 현재 위치가 어느 두 역 사이인지 계산
+    for (let i = 0; i < centers.length - 1; i++) {
+        if (currentCenter >= centers[i]
+            && currentCenter <= centers[i + 1]) {
+
+            progress =
+                (currentCenter - centers[i])
+                / (centers[i + 1] - centers[i]);
+
+            x = centers[i]
+                + (centers[i + 1] - centers[i]) * progress;
+
+            break;
+        }
+
+        if (currentCenter > centers[i + 1]) {
+            x = centers[i + 1];
+        }
+    }
+
+    // 역에 가까워질수록 빛의 길이를 줄임
+    const length = 40 * Math.min(progress, 1 - progress) * 2;
+
+    light.setAttribute('x1', x - length / 2);
+    light.setAttribute('x2', x + length / 2);
+    light.style.opacity = length < 2 ? 0 : 1;
+}
+
+function updateMapPosition() {
+    const map = document.querySelector('.map-track');
+    const svg = map.querySelector('svg');
+    const line = document.querySelector('#map-line');
+    const stations = document.querySelectorAll('.map-station');
+
+    const containerRect = container.getBoundingClientRect();
+    const mapWidth = container.scrollWidth;
+
+    // 노선도의 너비를 작품 전체 영역에 맞춤
+    map.style.width = `${mapWidth}px`;
+    svg.setAttribute('width', mapWidth);
+    svg.setAttribute('viewBox', `0 0 ${mapWidth} 100`);
+
+
+    const centers = Array.from(artworks).map(artwork => {
+    const rect = artwork.getBoundingClientRect();
+
+        return rect.left - containerRect.left
+            + container.scrollLeft
+            + rect.width / 2;
+    });
+
+    // 각 역을 해당 작품의 중앙에 배치
+    centers.forEach((x, index) => {
+    stations[index].setAttribute(
+            'transform',
+            `translate(${x}, 0)`
+        );
+    });
+
+    // 노선의 시작점과 끝점도 작품 위치에 맞춤
+    const lineStart = Math.max(centers[0], 180);
+
+    line.setAttribute('x1', lineStart);
+    line.setAttribute('x2', centers[centers.length - 1]);
+
+
+
+    // 작품 스크롤과 같은 거리만큼 노선도 이동
+    map.style.transform =
+        `translateX(${-container.scrollLeft}px)`;
+}
+
+function updateActiveArtwork() {
+    const center = container.getBoundingClientRect().left
+        + container.clientWidth / 2;
+
+    let closestArtwork = null;
+    let minDistance = Infinity;
+
+    artworks.forEach(artwork => {
+        const rect = artwork.getBoundingClientRect();
+        const artworkCenter = rect.left + rect.width / 2;
+        const distance = Math.abs(center - artworkCenter);
+
+        if (distance < minDistance) {
+            minDistance = distance;
+            closestArtwork = artwork;
+        }
+    });
+
+    const stations = document.querySelectorAll('.map-station');
+
+    artworks.forEach((artwork, index) => {
+        const isActive = artwork === closestArtwork;
+
+        artwork.classList.toggle('active', isActive);
+
+        if (stations[index]) {
+            stations[index].classList.toggle('active', isActive);
+        }
+    });
+
+}
+
+function centerArtwork(artwork) {
+    const containerRect = container.getBoundingClientRect();
+    const artworkRect = artwork.getBoundingClientRect();
+
+    const currentCenter = containerRect.left + container.clientWidth / 2;
+    const artworkCenter = artworkRect.left + artworkRect.width / 2;
+    const distance = artworkCenter - currentCenter;
+
+    if (Math.abs(distance) < 5) return;
+
+    const start = container.scrollLeft;
+    const target = start + distance;
+    const duration = 1200;
+    const startTime = performance.now();
+
+    function animate(time) {
+        const progress = Math.min((time - startTime) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+
+        container.scrollLeft = start + (target - start) * eased;
+
+        if (progress < 1) {
+            requestAnimationFrame(animate);
+        }
+    }
+
+    requestAnimationFrame(animate);
+}
+
+function goToArtwork(index) {
+    centerArtwork(artworks[index]);
+}
+
+window.addEventListener("load", () => {
+    const params = new URLSearchParams(window.location.search);
+    const artworkIndex = Number(params.get("artwork"));
+
+    if (params.has("artwork") && artworks[artworkIndex]) {
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+                goToArtwork(artworkIndex);
+            });
+        });
+    }
+});
+
+
+    let scrollTimer;
+
+    //스크롤
+    let updateFrame = null;
+
+    container.addEventListener('scroll', () => {
+        if (updateFrame) return;
+
+        updateFrame = requestAnimationFrame(() => {
+            updateActiveArtwork();
+            updateMovingLight();
+            updateMapPosition();
+
+            updateFrame = null;
+        });
+    });
+
+// 메인페이지에서 선택한 작품을 화면 중앙에 배치
+window.addEventListener("load", () => {
+    const targetId = location.hash.substring(1);
+
+    if (!targetId) return;
+
+    const container = document.querySelector(".artwork-container");
+    const target = document.getElementById(targetId);
+
+    if (!container || !target) return;
+
+    requestAnimationFrame(() => {
+        const containerRect = container.getBoundingClientRect();
+        const targetRect = target.getBoundingClientRect();
+
+        const moveX =
+            targetRect.left - containerRect.left
+            + targetRect.width / 2
+            - container.clientWidth / 2;
+
+        container.scrollLeft += moveX;
+    });
+});
+
+
+
+
+// 메인페이지로 돌아가는 전환 모션
+
+function transitionToMain() {
+    const screen = document.querySelector(".transition-screen");
+
+    screen.classList.remove("play", "reverse");
+    screen.style.display = "flex";
+
+    void screen.offsetWidth;
+
+    screen.classList.add("reverse", "play");
+
+    setTimeout(() => {
+        location.href = "../index.html";
+    }, 9000);
+
+    return false;
+}
+
+
+
+
+window.addEventListener('load', () => {
+    updateActiveArtwork();
+    updateSpaces();
+    updateMovingLight();
+    updateMapPosition();
+});
+
+window.addEventListener('resize', () => {
+    updateSpaces();
+    updateMovingLight();
+});
+
+
+
+
+
+</script>
+
+
+
+
+</body>
+</html>
