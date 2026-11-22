@@ -37,7 +37,8 @@ body {
     margin-bottom: 0;
 }
 
-#intro-text a {
+#intro-text a,
+.detail-info a {
     pointer-events: auto;
     cursor: pointer;
     margin-top: 0;
@@ -45,10 +46,10 @@ body {
     text-decoration: none;
 }
 
-#intro-text a:hover {
+#intro-text a:hover,
+.detail-info a:hover {
     color: #f5c542;
 }
-
 
 
 
@@ -643,10 +644,11 @@ body {
 .detail-info h1 {
     font-size: 22px;
     font-weight: normal;
-    margin-bottom: 20px;
+    margin-bottom: 5px;
 }
 
 .detail-info p {
     font-size: 13px;
     line-height: 2;
+    margin-top: 0;
 }
