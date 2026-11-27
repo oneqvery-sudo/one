@@ -513,6 +513,19 @@ async function transitionToMain() {
         stations.length
     );
 
+    // 모든 노선도 숨기기
+    screen.querySelectorAll("svg").forEach(svg => {
+        svg.style.display = "none";
+    });
+
+    // 현재 노선도와 메인 노선도 표시
+    routeScene.style.display = "block";
+    mainScene.style.display = "block";
+
+    routeScene.style.opacity = 1;
+    mainScene.style.opacity = 0;
+    mainScene.style.visibility = "visible";
+
     screen.classList.remove("play", "reverse");
     screen.style.display = "flex";
 
@@ -553,12 +566,10 @@ async function transitionToMain() {
                 { fill: "#f5a623" },
                 { fill: "black" },
                 { fill: "#f5a623" },
-                { fill: "black" },
-                { fill: "#f5a623" },
                 { fill: "black" }
             ],
             {
-                duration: 2500,
+                duration: 1800,
                 fill: "forwards"
             }
         );
@@ -589,7 +600,7 @@ async function transitionToMain() {
                 { strokeDashoffset: end }
             ],
             {
-                duration: 1500,
+                duration: 700,
                 easing: "linear",
                 fill: "forwards"
             }
@@ -627,6 +638,12 @@ async function transitionToMain() {
 
     await new Promise(resolve => setTimeout(resolve, 450));
 
+
+
+
+
+    
+
     // 메인 노선도 등장
     mainScene.style.visibility = "visible";
     mainScene.style.transition = "opacity 500ms ease";
@@ -658,7 +675,7 @@ async function transitionToMain() {
             { strokeDashoffset: end }
         ],
         {
-            duration: 2500,
+            duration: 1000,
             easing: "linear",
             fill: "forwards"
         }
@@ -675,12 +692,10 @@ async function transitionToMain() {
             { fill: "#f5a623" },
             { fill: "black" },
             { fill: "#f5a623" },
-            { fill: "black" },
-            { fill: "#f5a623" },
             { fill: "black" }
         ],
         {
-            duration: 3000,
+            duration: 2000,
             easing: "ease-in-out",
             fill: "forwards"
         }
