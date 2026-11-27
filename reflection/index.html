@@ -68,8 +68,9 @@
 <!--작품이미지-->
 
     <div class="artwork-container">
-        <div class="artwork placeholder" id="reflection-1" data-title="프로젝트_땅을 가르는 기준">
+        <div class="artwork" id="reflection-1">
             <a href="artworks/artwork1.html">
+                <img src="images/reflection1.jpg" alt="프로젝트_땅을 가르는 기준">
             </a>
         </div>
 
@@ -89,9 +90,9 @@
                 </video>
             </a>
         </div>
-
-        <div class="artwork placeholder" id="reflection-4" data-title="말의 고민_나비는 나비?">
+        <div class="artwork" id="reflection-4">
             <a href="artworks/artwork4.html">
+                <img src="images/reflection4.jpg" alt="말의고민_나비는나비?">
             </a>
         </div>
 
@@ -119,21 +120,35 @@
 
 <!-- 페이지 전환 모션 -->
 <div class="transition-screen">
-    <svg viewBox="0 0 500 100">
 
-        <!-- 두 점을 잇는 선 -->
-        <line x1="100" y1="50" x2="400" y2="50" class="base-line"/>
-        <line x1="100" y1="50" x2="400" y2="50" class="light-line"/>
+    <svg class="reflection-transition" viewBox="120 100 710 580">
+        <path class="base-line"
+            d="M 140 657 H 811 V 118 H 376"/>
 
-        <!-- 왼쪽 점 -->
-        <circle cx="100" cy="50" r="11"
-                class="start-point"/>
+        <path class="light-line"
+            d="M 140 657 H 811 V 118 H 376"/>
 
-        <!-- 오른쪽 점 -->
-        <circle cx="400" cy="50" r="11"
-                class="end-point"/>
+        <circle cx="140" cy="657" r="7" class="start-point"/>
+        <circle cx="811" cy="657" r="7" class="station-point"/>
+        <circle cx="811" cy="118" r="7" class="station-point"/>
+        <circle cx="376" cy="118" r="7" class="end-point"/>
+    </svg>
+
+    <!-- 메인 노선도 전환 장면 -->
+    <svg class="main-transition" viewBox="0 0 1200 730">
+
+        <path class="main-base-line"
+            d="M 140 657 H 811"/>
+
+        <path class="main-light-line"
+            d="M 140 657 H 811"/>
+
+        <circle cx="140" cy="657" r="5"
+            class="main-project-point"/>
 
     </svg>
+
+
 </div>
 
 
@@ -424,20 +439,266 @@ window.addEventListener("load", () => {
 
 
 // 메인페이지로 돌아가는 전환 모션
-
-function transitionToMain() {
+async function transitionToMain() {
     const screen = document.querySelector(".transition-screen");
+
+    if (!screen) {
+        location.href = "../index.html";
+        return false;
+    }
+
+        // 현재 페이지의 노선도 이름과 역 번호 확인
+    const hash = location.hash;
+
+    const match = hash.match(
+        /(relation|tree|black_light|black_screen|black|yin|reflection)(?:_yang)?-?(\d+)/
+    );
+
+    const routeName = match ? match[1] : "relation";
+    const target = match ? Number(match[2]) : 1;
+
+    const actualRouteName = {
+        "black_light": "black",
+        "black_screen": "black-screen"
+    }[routeName] || routeName;
+
+    // 현재 페이지에 해당하는 노선도 선택
+    const routeScene = screen.querySelector(
+        `.${actualRouteName}-transition`
+    );
+
+    const mainScene = screen.querySelector(".main-transition");
+    const projectPoint = screen.querySelector(".main-project-point");
+
+    if (!routeScene) {
+        location.href = "../index.html";
+        return false;
+    }
+
+    const stations = [
+        ...routeScene.querySelectorAll(
+            ".start-point, .station-point, .end-point, .non-interactive"
+        )
+    ];
+
+    const lightLine = routeScene.querySelector(".light-line");
+
+    if (!lightLine || !stations.length || !mainScene || !projectPoint) {
+        location.href = "../index.html";
+        return false;
+    }
+
+    const actualTarget = Math.min(
+        Math.max(1, target),
+        stations.length
+    );
+
+    // 모든 노선도 숨기기
+    screen.querySelectorAll("svg").forEach(svg => {
+        svg.style.display = "none";
+    });
+
+    // 현재 노선도와 메인 노선도 표시
+    routeScene.style.display = "block";
+    mainScene.style.display = "block";
+
+    routeScene.style.opacity = 1;
+    mainScene.style.opacity = 0;
+    mainScene.style.visibility = "visible";
 
     screen.classList.remove("play", "reverse");
     screen.style.display = "flex";
 
     void screen.offsetWidth;
 
-    screen.classList.add("reverse", "play");
+    // 노선의 길이 계산
+    const totalLength = lightLine.getTotalLength();
 
-    setTimeout(() => {
-        location.href = "../index.html";
-    }, 9000);
+    const stationLengths = stations.map(station => {
+        const cx = Number(station.getAttribute("cx"));
+        const cy = Number(station.getAttribute("cy"));
+
+        let closestLength = 0;
+        let minDistance = Infinity;
+
+        for (let i = 0; i <= 2000; i++) {
+            const length = totalLength * i / 2000;
+            const point = lightLine.getPointAtLength(length);
+
+            const distance = Math.hypot(
+                point.x - cx,
+                point.y - cy
+            );
+
+            if (distance < minDistance) {
+                minDistance = distance;
+                closestLength = length;
+            }
+        }
+
+        return closestLength;
+    });
+
+    // 역 반짝임
+    const blink = station => new Promise(resolve => {
+        const animation = station.animate(
+            [
+                { fill: "#f5a623" },
+                { fill: "black" },
+                { fill: "#f5a623" },
+                { fill: "black" }
+            ],
+            {
+                duration: 1800,
+                fill: "forwards"
+            }
+        );
+
+        animation.onfinish = () => {
+            station.style.fill = "black";
+            animation.cancel();
+            resolve();
+        };
+    });
+
+    // 빛 이동
+    const move = (from, to) => new Promise(resolve => {
+        const dashLength = 5;
+
+        const start = -(stationLengths[from] - dashLength / 2);
+        const end = -(stationLengths[to] - dashLength / 2);
+
+        lightLine.style.strokeDasharray =
+            `${dashLength} ${totalLength}`;
+
+        lightLine.style.strokeDashoffset = start;
+        lightLine.style.opacity = 1;
+
+        const animation = lightLine.animate(
+            [
+                { strokeDashoffset: start },
+                { strokeDashoffset: end }
+            ],
+            {
+                duration: 700,
+                easing: "linear",
+                fill: "forwards"
+            }
+        );
+
+        animation.onfinish = () => {
+            lightLine.style.strokeDashoffset = end;
+            lightLine.style.opacity = 0;
+            animation.cancel();
+            resolve();
+        };
+    });
+
+    // 노선 초기화
+    lightLine.style.strokeDasharray = `5 ${totalLength}`;
+    lightLine.style.strokeDashoffset = 0;
+    lightLine.style.opacity = 0;
+
+    stations.forEach(station => {
+        station.style.fill = "black";
+    });
+
+    // 현재 역에서 첫 번째 역까지 역순으로 이동
+    for (let i = actualTarget - 1; i >= 0; i--) {
+        if (i < actualTarget - 1) {
+            await move(i + 1, i);
+        }
+
+        await blink(stations[i]);
+    }
+   
+    // 현재 노선도 사라지기
+    routeScene.style.transition = "opacity 400ms ease";
+    routeScene.style.opacity = 0;
+
+    await new Promise(resolve => setTimeout(resolve, 450));
+
+
+
+
+
+
+
+
+
+
+    
+
+    // 메인 노선도 등장
+    mainScene.style.visibility = "visible";
+    mainScene.style.transition = "opacity 500ms ease";
+
+    void mainScene.getBoundingClientRect();
+
+    mainScene.style.opacity = 1;
+
+    await new Promise(resolve => setTimeout(resolve, 550));
+
+    // 오른쪽에서 프로젝트 역으로 빛 이동
+    const mainLight = mainScene.querySelector(".main-light-line");
+    const mainTotalLength = mainLight.getTotalLength();
+
+    const dashLength = 5;
+
+    const start = -(mainTotalLength - dashLength / 2);
+    const end = -(dashLength / 2);
+
+    mainLight.style.strokeDasharray =
+        `${dashLength} ${mainTotalLength}`;
+
+    mainLight.style.strokeDashoffset = start;
+    mainLight.style.opacity = 1;
+
+    const lightAnimation = mainLight.animate(
+        [
+            { strokeDashoffset: start },
+            { strokeDashoffset: end }
+        ],
+        {
+            duration: 1000,
+            easing: "linear",
+            fill: "forwards"
+        }
+    );
+
+    await lightAnimation.finished;
+
+    mainLight.style.opacity = 0;
+    lightAnimation.cancel();
+
+    // 프로젝트 역 세 번 깜빡이기
+    const projectBlink = projectPoint.animate(
+        [
+            { fill: "#f5a623" },
+            { fill: "black" },
+            { fill: "#f5a623" },
+            { fill: "black" }
+        ],
+        {
+            duration: 2000,
+            easing: "ease-in-out",
+            fill: "forwards"
+        }
+    );
+
+    await projectBlink.finished;
+
+    projectPoint.style.fill = "black";
+    projectBlink.cancel();
+
+    // 메인 노선도 부드럽게 사라지기
+    mainScene.style.transition = "opacity 1000ms ease";
+    mainScene.style.opacity = 0;
+
+    await new Promise(resolve => setTimeout(resolve, 2000));
+
+    // 메인페이지로 이동
+    location.href = "../index.html";
 
     return false;
 }
