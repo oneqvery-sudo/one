@@ -9,9 +9,10 @@ body {
 
 /*설명문*/
 #intro-text {
+    color: black;
     position: fixed;
     top: 65%;
-    left: 45%;
+    left: 47%;
     transform: translate(-50%, -50%);
 
     z-index: 10000;
@@ -42,7 +43,7 @@ body {
     pointer-events: auto;
     cursor: pointer;
     margin-top: 0;
-    color: black;
+    color: gray;
     text-decoration: none;
 }
 
@@ -58,11 +59,13 @@ body {
 
 /* 역 글자 */
     .map text.artwork-title {
+        color: black;
         font-size: 6px;
     }
 
 /* 기타 글자 */
     .map text:not(.artwork-title) {
+        color: black;
         font-size: 10px;
     }
 
@@ -127,18 +130,18 @@ body {
         right: 25px;
         width: 45px;
         height: 45px;
-        border: 1px solid black;
+        border: 1px solid white;
         border-radius: 50%;
         background: white;
-        color: black;
+        color: gray;
         font-size: 24px;
         cursor: pointer;
         z-index: 10;
     }
 
     #reset-button:hover {
-        background: black;
-        color: white;
+        background: white;
+        color: #f5c542;
     }
 
 
@@ -149,9 +152,7 @@ body {
 
 /*역의 원과 이름*/
     .stations circle {
-        fill: white;
-        stroke: black;
-        stroke-width: 2;
+        fill: black;
     }
 
     .station-labels {
@@ -187,8 +188,35 @@ body {
 
 
 
-/* 페이지 전환 모션 */
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*화면이동*/
+
+/* 페이지 전환 화면 기본 설정 */
 .transition-screen {
     position: fixed;
     inset: 0;
@@ -199,112 +227,103 @@ body {
     background: white;
 }
 
+/* 모든 전환 노선도 기본 설정 */
 .transition-screen svg {
-    width: 500px;
-    max-width: 80%;
+    display: none;
+    width: min(550px, 70vw);
+    height: auto;
+    max-width: 550px;
+    max-height: 550px;
     overflow: visible;
+    margin: auto;
 }
 
-/* 연결선 */
+/* 나무 노선도 기준 원 크기 통일 */
+.transition-screen .tree-transition {
+    width: min(550px, 70vw);
+}
+
+.transition-screen .yin-transition {
+    width: min(228px, 70vw);
+}
+
+.transition-screen .relation-transition {
+    width: min(254px, 70vw);
+}
+
+.transition-screen .black-transition {
+    width: min(279px, 70vw);
+}
+
+.transition-screen .black-screen-transition {
+    width: min(110px, 70vw);
+}
+
+.transition-screen .reflection-transition {
+    width: min(600px, 70vw);
+}
+
+
+/* 메인 노선도 전환 장면 */
+.transition-screen .main-transition {
+    position: absolute;
+    width: 1600px;
+    height: auto;
+    max-height: none;
+    overflow: visible;
+    margin: 0;
+    left: 1000px;
+    top: 1000px;
+    opacity: 0;
+    visibility: hidden;
+}
+
 
 /* 기본 노선 */
 .base-line {
+    fill: none;
     stroke: black;
     stroke-width: 2;
 }
 
-/* 노선 위를 이동하는 빛 */
+
+/* 역이 반짝이는 효과 */
+@keyframes station-blink {
+    0%, 100% {
+        fill: #f5a623;
+    }
+
+    30%, 60% {
+        fill: black;
+    }
+
+    45%, 80% {
+        fill: #f5a623;
+    }
+}
+
+/* 반짝임 실행 */
+.station-blink {
+    animation: station-blink 0.9s ease-in-out forwards;
+}
+
+/* 이동하는 빛 */
 .light-line {
+    fill: none;
     stroke: #f5a623;
-    stroke-width: 3;
+    stroke-width: 4;
     stroke-linecap: round;
-    stroke-dasharray: 15 285;
-    stroke-dashoffset: 15;
+    stroke-dasharray: 0 10000;
+    stroke-dashoffset: 0;
+    opacity: 0;
 }
 
-
-/* 왼쪽 역: 처음에는 켜져 있음 */
-.start-point {
-    fill: #f5a623;
-}
-
-/* 오른쪽 역: 처음에는 꺼져 있음 */
+/* 역의 기본 색상 */
+.start-point,
+.station-point,
 .end-point {
     fill: black;
 }
-
-/* 왼쪽 역 깜빡임 */
-@keyframes start-point {
-    0%, 15% {
-        fill: #f5a623;
-    }
-
-    25% {
-        fill: black;
-    }
-
-    35% {
-        fill: #f5a623;
-    }
-
-    45%, 100% {
-        fill: black;
-    }
-}
-
-/* 빛선 이동 */
-@keyframes draw-line {
-    0%, 35% {
-        stroke-dashoffset: 15;
-        opacity: 0;
-    }
-
-    36% {
-        opacity: 1;
-    }
-
-    80% {
-        stroke-dashoffset: -300;
-        opacity: 1;
-    }
-
-    81%, 100% {
-        opacity: 0;
-    }
-}
-
-/* 오른쪽 역 깜빡인 뒤 켜짐 */
-@keyframes end-point {
-    0%, 80% {
-        fill: black;
-    }
-
-    85% {
-        fill: #f5a623;
-    }
-
-    90% {
-        fill: black;
-    }
-
-    95%, 100% {
-        fill: #f5a623;
-    }
-}
-
-/* 애니메이션 실행 */
-.transition-screen.play .light-line {
-    animation: draw-line 9s ease-in-out forwards;
-}
-
-.transition-screen.play .start-point {
-    animation: start-point 9s linear forwards;
-}
-
-.transition-screen.play .end-point {
-    animation: end-point 9s linear forwards;
-}
-
 
 
 
@@ -317,14 +336,73 @@ body {
     animation-direction: reverse;
 }
 
-
-
-
-
 /* 메인페이지로 돌아갈 때 빛의 역방향 이동 */
 .moving-light.reverse {
     animation-direction: alternate-reverse;
 }
+
+
+
+
+/* 메인 노선도 전환 장면 */
+.transition-screen .main-transition {
+    position: absolute;
+    width: 4800px;
+    height: auto;
+    max-width: none;
+    max-height: none;
+    left: calc(50% - 560px);
+    top: calc(50% - 2628px);
+    overflow: visible;
+    margin: 0;
+    opacity: 0;
+    visibility: hidden;
+}
+
+/* 메인 노선 */
+.main-base-line {
+    fill: none;
+    stroke: black;
+    stroke-width: 2;
+}
+
+/* 이동하는 빛 */
+.main-light-line {
+    fill: none;
+    stroke: #f5a623;
+    stroke-width: 2;
+    opacity: 0;
+}
+
+/* 프로젝트 역 */
+.main-project-point {
+    fill: black;
+}
+
+
+
+
+
+/* 메인 페이지 진입 시 흰색 화면 */
+.page-enter-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    background: white;
+    opacity: 1;
+    pointer-events: none;
+    transition: opacity 1200ms ease;
+}
+
+.page-enter-overlay.fade-out {
+    opacity: 0;
+}
+
+
+
+
+
+
 
 
 
@@ -485,7 +563,7 @@ body {
     .map-buttons a,
     .map-buttons button {
         pointer-events: auto;
-        color: #333;
+        color: grey;
         background: none;
         border: none;
         text-decoration: none;
@@ -535,7 +613,7 @@ body {
     }
 
     .map-station circle {
-        fill: #888;
+        fill: black;
         transition: fill 0.3s ease, filter 0.3s ease;
     }
 
@@ -597,7 +675,7 @@ body {
     left: 40px;
     z-index: 1000;
 
-    color: #333;
+    color: black;
     text-decoration: none;
     font-size: 13px;
     letter-spacing: 2px;
@@ -638,7 +716,7 @@ body {
 
 .detail-info {
     flex: 0 0 300px;
-    color: #333;
+    color: gray;
 }
 
 .detail-info h1 {
