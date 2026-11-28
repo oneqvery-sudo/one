@@ -519,6 +519,64 @@
 <!-- 페이지 전환 모션 -->
 <div class="transition-screen">
 
+        <!-- 나무 시리즈 소개 -->
+    <div class="series-intro tree-series-intro">
+        <h2>나무</h2>
+        <p>
+            수묵화를 작업하며, 자연에서 느낀 편안함과 친밀감으로 나무를 작업의 대상으로 선택했다.
+            나무 시리즈는 먼저 주제를 정한 뒤, 나무의 부분이나 그림자와 같은 현상 중 주제와 연결되는 대상을 선택하고, 그 특징을 통해 주제를 드러내는 방식으로 진행된다.
+        </p>
+    </div>
+
+        <!-- 관계 시리즈 소개 -->
+    <div class="series-intro relation-series-intro">
+        <h2>관계</h2>
+        <p>
+            개별적으로 존재하는 것처럼 보이는 모든 존재가 보이지 않는 연결 속에서 서로 영향을 주고받는다는 생각을 표현했다.
+            대나무뿌리와 붉은실을 통해 인연의 연결을 드러내고, 함께 살아가는 세계의 의미를 담았다.
+        </p>
+    </div>
+
+    <!-- 검은빛 시리즈 소개 -->
+    <div class="series-intro black_light-series-intro">
+        <h2>검은빛</h2>
+        <p>
+            빛 자체를 표현했던 작업 에서 나아가, 빛이 드러나는 일상의 장면을 담았다.
+            다양한 색과 재료, 화면 구성을 활용해 평소 지나치기 쉬운 순간을 새롭게 바라보고, 그 안에 깃든 평화로움과 아름다움을 발견하고자 했다.
+        </p>
+    </div>
+
+    <!-- 음양 시리즈 소개 -->
+    <div class="series-intro yin-series-intro">
+        <h2>음양</h2>
+        <p>
+            자연에서 편안함과 위안을 느끼는 동시에 고립감과 두려움을 경험했던 경험은 서로 반대되는 감정이 공존하는 이유에 대한 관심으로 확장되었다.
+            이를 음양의 관계로 연결하고, 수묵화의 돌을 통해 표현하고자 했다.
+            단단한 표면의 돌은 양으로, 이끼가 낀 돌은 음으로 나타냈으며, 각기 다른 화면 구성과 배치를 통해 두 성질을 시각화했다.
+            이를 통해 결국 음과 양은 서로 반대되지만 분리된 존재가 아니라, 서로를 통해 드러나고 균형을 이루며 공존하는 관계임을 표현했다.
+        </p>
+    </div>
+
+    <!-- 검은화면 시리즈 소개 -->
+    <div class="series-intro black-screen-series-intro">
+        <h2>검은화면</h2>
+        <p>
+            일상의 빛을 표현했던 '검은빛'에서 확장해 검은 화면 위에 생명의 존재와 탄생 가능성을 표현했다.
+            흑연의 반사로 드러나는 형상과 반복되는 선을 통해 관찰이란 나와 세계가 관계를 맺고 서로를 이해하는 과정임을 나타냈다.
+        </p>
+    </div>
+
+    <!-- 감상 시리즈 소개 -->
+    <div class="series-intro reflection-series-intro">
+        <h2>감상</h2>
+        <p>
+            작품을 통해 생각을 전달하는 방식에 대한 고민에서 출발해, 문학책을 읽고 느낀 감정과 감각을 시각화하는 프로젝트를 진행했다.
+            전달 대상을 고려해 내용을 단순화하고, 작품을 통해 독서 경험과 책에 대한 호기심을 전하고자 했다.
+        </p>
+    </div>
+
+
+    
         <!-- 관계 노선도 -->
     <svg class="relation-transition" viewBox="336 227 300 300">
 
@@ -535,6 +593,8 @@
         <circle cx="452" cy="290" r="7" class="end-point"/>
 
     </svg>
+
+
 
         <!-- 나무 노선도 -->
     <svg class="tree-transition" viewBox="260 380 650 130">
@@ -676,7 +736,12 @@
         <circle cx="811" cy="118" r="7" class="station-point"/>
         <circle cx="376" cy="118" r="7" class="end-point"/>
     </svg>
-    
+
+
+
+        <!-- 노선도 간 글 -->
+    <div class="transition-caption"></div>
+
 </div>
 
 
@@ -884,14 +949,132 @@ function transitionTo(url, stationNumber = 1) {
         "black-screen": "black-screen-transition"
     };
 
+
+
+    // 노선별 작품 설명
+
+    const routeCaptions = {
+        
+        // 나무
+        "tree": [
+            "우리는 대상을 불완전한 이미지를 통해 대상을 이해하다",
+            "반복되는 시간 속에 쌓이고 잊히는 기억을 담다",
+            "익숙한 이미지에 익숙한 요소를 더해 다른 가능성을 발견하다",
+            "자연과의 경험을 통해 공허함을 극복하고 다시 힘을 얻다",
+            "흑연의 반사를 통해 현실과 회화 속 빛의 차이를 드러내다",
+            "뿌리가 얽히고 끊어지듯 인연의 형성과 끝맺다"
+        ],
+
+            //관계
+        "relation": [
+            "서로 다른 존재는 보이지 않는 연결로 하나의 세계를 이룬다",
+            "뿌리가 얽히고 끊어지듯 인연의 형성과 끝맺다",
+            "사라진 관계는 흔적을 남기고 새로운 관계로 이어가다",
+            "추락은 위기에서 벗어나 평등으로 나아가는 계기이다",
+            "관계_침전"
+        ],
+
+            //검은빛
+        "black-light": [
+            "흑연의 반사를 통해 현실과 회화 속 빛의 차이를 드러내다",
+            "건물",
+            "운동장",
+            "벤치",
+            "커튼"
+        ],
+
+            // 음양
+        "yin-yang": [
+            "움직임 없이 여러 감각을 통해 자연과 대화하며 평온함을 느끼다",
+            "가까운 형제자매도 결국 서로 다른 타인이다",
+            "자연과의 경험을 통해 공허함을 극복하고 다시 힘을 얻다",
+            "사람들 속에서도 홀로 남겨진 듯한 우울이 있다",
+            "집중",
+            "쌍둥이",
+            "서로 다른 존재 속에서 각자의 고유함과 공통점을 발견하다",
+            "나를 정의하는 데에는 나를 바라보는 타인의 시선이 필요하다",
+            "군중",
+            "정지된 상태인 죽음을 윤회할 수 있는가",
+            "사진",
+            "음과 양, 분리될 수 없으며 서로 균형을 이루며 공존하다"
+        ],
+
+        // 검은화면
+        "black-screen": [
+            "관찰",
+            "도출",
+            "탐색",
+            "확장"
+        ],
+
+        // 감상
+        "reflection": [
+            "문화적 사고방식이 동양화와 서양화의 회화 구성과 해석에 미치는 영향을 탐구한다",
+            "소년이온다_영웅과 인간",
+            "빛나지 않아요_어떤 형태로든 앞으로 나가는",
+            "말의 고민_나비는 나비?"
+        ]
+    };
+
     const selectedClass = routeClasses[routeName];
 
     const routeScene = screen.querySelector("." + selectedClass);
+
+
+
+    // 각 작품 노선도로 이동할 때만 소개 글 표시
+    const treeIntro = screen.querySelector(".tree-series-intro");
+    const relationIntro = screen.querySelector(".relation-series-intro");
+    const black_lightIntro = screen.querySelector(".black_light-series-intro");
+    const yinIntro = screen.querySelector(".yin-series-intro");
+    const blackScreenIntro = screen.querySelector(".black-screen-series-intro");
+    const reflectionIntro = screen.querySelector(".reflection-series-intro");
+
+
+    if (treeIntro) {
+        treeIntro.style.display = routeName === "tree" ? "block" : "none";
+    }
+
+    if (relationIntro) {
+        relationIntro.style.display = routeName === "relation" ? "block" : "none";
+    }
+
+    if (black_lightIntro) {
+        black_lightIntro.style.display = routeName === "black-light" ? "block" : "none";
+    }
+
+    if (yinIntro) {
+        yinIntro.style.display = routeName === "yin-yang" ? "block" : "none";
+    }
+
+    if (blackScreenIntro) {
+        blackScreenIntro.style.display = routeName === "black-screen" ? "block" : "none";
+    }
+
+    if (reflectionIntro) {
+        reflectionIntro.style.display = routeName === "reflection" ? "block" : "none";
+    }
+
+
+    // 작품 설명 표시 영역
+    const caption = screen.querySelector(".transition-caption");
+
+    function showCaption(index) {
+        if (!caption) return;
+
+        caption.style.transition = "none";
+        caption.textContent = routeCaptions[routeName]?.[index] || "";
+        caption.style.opacity = 1;
+    }
 
     if (!routeScene) {
         location.href = url;
         return;
     }
+
+
+
+
 
     // 모든 노선도 숨기고 선택한 노선도만 표시
     screen.querySelectorAll("svg").forEach(svg => {
@@ -954,10 +1137,12 @@ function transitionTo(url, stationNumber = 1) {
                 [
                     { fill: "#f5a623" },
                     { fill: "black" },
+                    { fill: "#f5a623" },
+                    { fill: "black" },
                     { fill: stayOn ? "#f5a623" : "black" }
                 ],
                 {
-                    duration: 1800,
+                    duration: 2500,
                     easing: "ease-in-out",
                     fill: "forwards"
                 }
@@ -1016,17 +1201,24 @@ function transitionTo(url, stationNumber = 1) {
         station.style.fill = "black";
     });
 
+
     // 순서대로 애니메이션 실행
     async function playTransition() {
+
+        // 첫 번째 역에 도착
+        showCaption(0);
 
         await blinkStation(
             stations[0],
             target === 1
         );
 
+        // 다음 역으로 이동하며 설명 변경
         for (let i = 1; i < target; i++) {
 
             await moveLight(i - 1, i);
+
+            showCaption(i);
 
             await blinkStation(
                 stations[i],
@@ -1034,11 +1226,11 @@ function transitionTo(url, stationNumber = 1) {
             );
         }
 
+        // 마지막 설명을 보여준 뒤 페이지 이동
         transitionTimer = setTimeout(() => {
             location.href = url;
         }, 500);
     }
-
     playTransition();
 }
 

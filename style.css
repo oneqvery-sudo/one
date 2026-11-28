@@ -399,6 +399,123 @@ body {
 }
 
 
+/* 전환 중 작품 설명 */
+.transition-caption {
+    position: absolute;
+    left: 50%;
+    bottom: 18%;
+    transform: translateX(-50%);
+
+    width: 80%;
+    text-align: center;
+
+    font-size: 16px;
+    line-height: 1.7;
+    color: black;
+
+    opacity: 0;
+    transition: none;
+    pointer-events: none;
+}
+
+
+/* 시리즈 소개 */
+.series-intro {
+    width: min(900px, 90%);
+    margin: 0 auto 30px;
+    color: black;
+}
+
+.series-intro h2 {
+    font-size: 20px;
+    font-weight: normal;
+    margin: 0 0 12px;
+}
+
+.series-intro p {
+    font-size: 14px;
+    line-height: 1.8;
+    margin: 0;
+}
+
+
+
+
+
+
+
+.transition-screen .series-intro {
+    position: absolute;
+    top: 12%;
+    left: 50%;
+    transform: translateX(-50%);
+    margin: 0;
+}
+
+
+
+
+
+
+.transition-screen .tree-series-intro,
+.transition-screen .relation-series-intro,
+.transition-screen .black-ligth-series-intro,
+.transition-screen .yin-series-intro,
+.transition-screen .black-screen-series-intro,
+.transition-screen .reflection-series-intro {
+    position: absolute;
+    top: 12%;
+    left: 50%;
+    transform: translateX(-50%);
+    margin: 0;
+}
+
+
+
+
+
+
+/* 랜덤 글귀 */
+.transition-screen .random-quote {
+    position: absolute;
+    top: 75%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    text-align: center;
+    font-size: 16px;
+    line-height: 1.8;
+    color: black;
+    opacity: 0;
+    z-index: 10000;
+    pointer-events: none;
+}
+
+    /* 단어 */
+    .random-quote.word {
+        font-size: 24px;
+        letter-spacing: 3px;
+    }
+
+    /* 문장 */
+    .random-quote.sentence {
+        font-size: 14px;
+        letter-spacing: 0;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
