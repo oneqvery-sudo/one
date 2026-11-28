@@ -10,6 +10,10 @@
 
 <body>
 
+
+
+
+
 <!-- 나무 시리즈 노선도-->
 
 <div class="series-map">
@@ -142,6 +146,17 @@
 <!-- 페이지 전환 모션 -->
 <div class="transition-screen">
 
+    <!-- 나무 시리즈 소개 -->
+    <div class="series-intro">
+        <h2>나무</h2>
+        <p>
+            수묵화를 작업하며, 자연에서 느낀 편안함과 친밀감으로 나무를 작업의 대상으로 선택했다.
+            나무 시리즈는 먼저 주제를 정한 뒤, 나무의 부분이나 그림자와 같은 현상 중 주제와 연결되는 대상을 선택하고, 그 특징을 통해 주제를 드러내는 방식으로 진행된다.
+        </p>
+    </div>
+
+
+
     <!-- 나무 노선도 -->
     <svg class="tree-transition" viewBox="260 380 650 130">
 
@@ -184,6 +199,14 @@
             class="main-project-point"/>
 
     </svg>
+
+    <!-- 메인 노선도 아래 랜덤 글귀 -->
+    <div class="random-quote"></div>    
+
+        
+    <!-- 전환 중 작품 설명 -->
+    <div class="transition-caption"></div>
+
 
 </div>
 
@@ -384,6 +407,11 @@ function updateActiveArtwork() {
 
 }
 
+let currentStationNumber = (() => {
+    const match = location.hash.match(/-(\d+)$/);
+    return match ? Number(match[1]) : 1;
+})();
+
 function centerArtwork(artwork) {
     const containerRect = container.getBoundingClientRect();
     const artworkRect = artwork.getBoundingClientRect();
@@ -408,6 +436,15 @@ function centerArtwork(artwork) {
         if (progress < 1) {
             requestAnimationFrame(animate);
         }
+
+        else {
+            const match = artwork.id.match(/-(\d+)$/);
+
+            if (match) {
+                currentStationNumber = Number(match[1]);
+            }
+        }
+
     }
 
     requestAnimationFrame(animate);
@@ -544,7 +581,7 @@ async function transitionToMain() {
     }
 
     const actualTarget = Math.min(
-        Math.max(1, target),
+        Math.max(1, currentStationNumber),
         stations.length
     );
 
@@ -552,6 +589,17 @@ async function transitionToMain() {
     screen.querySelectorAll("svg").forEach(svg => {
         svg.style.display = "none";
     });
+
+    // 나무 작품별 설명
+    const treeCaptions = [
+        "우리는 대상을 불완전한 이미지를 통해 대상을 이해하다",
+        "반복되는 시간 속에 쌓이고 잊히는 기억을 담다",
+        "익숙한 이미지에 익숙한 요소를 더해 다른 가능성을 발견하다",
+        "자연과의 경험을 통해 공허함을 극복하고 다시 힘을 얻다",
+        "흑연의 반사를 통해 현실과 회화 속 빛의 차이를 드러내다",
+        "뿌리가 얽히고 끊어지듯 인연의 형성과 끝맺다"
+    ];
+
 
     // 현재 노선도와 메인 노선도 표시
     routeScene.style.display = "block";
@@ -660,30 +708,144 @@ async function transitionToMain() {
         station.style.fill = "black";
     });
 
+    // 작품 설명 영역
+    const caption = screen.querySelector(".transition-caption");
+
     // 현재 역에서 첫 번째 역까지 역순으로 이동
     for (let i = actualTarget - 1; i >= 0; i--) {
+
         if (i < actualTarget - 1) {
             await move(i + 1, i);
         }
 
+    // 작품 설명 변경
+    if (caption) {
+        caption.style.transition = "none";
+        caption.textContent = treeCaptions[i];
+        caption.style.opacity = 1;
+    }
         await blink(stations[i]);
     }
 
-    // 현재 노선도 사라지기
+    // 노선도와 위아래 설명을 동시에 사라지게 하기
+    const seriesIntro = screen.querySelector(".series-intro");
+
     routeScene.style.transition = "opacity 400ms ease";
     routeScene.style.opacity = 0;
 
-    await new Promise(resolve => setTimeout(resolve, 450));
+    if (caption) {
+        caption.style.transition = "opacity 400ms ease";
+        caption.style.opacity = 0;
+    }
 
-    // 메인 노선도 등장
+    if (seriesIntro) {
+        seriesIntro.style.transition = "opacity 400ms ease";
+        seriesIntro.style.opacity = 0;
+    }
+
+    // 세 요소가 사라질 때까지 대기
+    await new Promise(resolve => setTimeout(resolve, 500));
+
+    // 주제 설명 초기화
+    if (seriesIntro) {
+        seriesIntro.style.display = "none";
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // 랜덤 글귀 설정
+    const quoteBox = screen.querySelector(".random-quote");
+
+    const quotes = [
+        "사유",
+        "대화",
+        "연결",
+        "정보",
+        "해석",
+        "관찰",
+        "기억",
+        "관계",
+        "확장",
+        "파생",
+        "시선",
+        "흔적",
+        "가능성",
+        "되돌아보기",
+        "정보수집가",
+
+        "익숙한 것을 다시 바라보기.",
+        "하나의 생각에서 또 다른 생각으로.",
+        "서로 다른 관점이 만나 새로운 의미를 만든다.",
+        "지나간 이야기에서 새로운 가능성을 발견한다.",
+        "사소한 정보가 생각의 시작이 되기도 한다.",
+        "대화는 새로운 생각을 만들어 낸다.",
+        "작품을 바라보는 또 하나의 시선.",
+        "하나의 이미지에서 여러 이야기가 파생된다.",
+        "생각은 서로 연결되고 확장된다.",
+        "처음의 질문으로 다시 돌아가기.",
+        "작품을 통해 나의 생각을 건네다.",
+        "익숙한 대상에 새로운 의미를 부여하다.",
+
+        "그림은 세계를 이해하고 해석하는 매개체가 될 수 있다.",
+        "나의 사고방식 자체를 작품의 일부로 받아들이다.",
+        "중요하지 않다고 여겼던 정보가 일상에 영향을 미치기도 한다.",
+        "타인과 의견을 주고받으며 사고를 확장하다.",
+        "작품은 내가 감상자에게 건네는 말과 같다.",
+        "작품과 대화를 나누며 처음에는 생각하지 못했던 이야기를 만들어 간다.",
+        "처음 작업을 시작했을 때의 마음을 다시 떠올리다.",
+        "작품을 오래 바라보고 생각하는 태도.",
+        "감상자 자신만의 사유를 이어 가다.",
+        "지나간 이야기로 돌아가 새로운 이야기를 시작하다."
+    ];
+    const randomIndex = Math.floor(Math.random() * quotes.length);
+
+    // 글귀 내용과 종류 설정
+    if (quoteBox) {
+        const selectedQuote = quotes[randomIndex];
+
+        quoteBox.textContent = selectedQuote;
+
+        if (selectedQuote.length <= 10 && !selectedQuote.includes(".")) {
+            quoteBox.className = "random-quote word";
+        } else {
+            quoteBox.className = "random-quote sentence";
+        }
+
+        quoteBox.style.transition = "none";
+        quoteBox.style.opacity = 0;
+    }
+
+    // 메인 노선도와 랜덤 글귀 등장
     mainScene.style.visibility = "visible";
     mainScene.style.transition = "opacity 500ms ease";
 
     void mainScene.getBoundingClientRect();
 
+    if (quoteBox) {
+        quoteBox.style.transition = "opacity 500ms ease";
+    }
+
     mainScene.style.opacity = 1;
 
+    if (quoteBox) {
+        quoteBox.style.opacity = 1;
+    }
+
     await new Promise(resolve => setTimeout(resolve, 550));
+
 
     // 오른쪽에서 프로젝트 역으로 빛 이동
     const mainLight = mainScene.querySelector(".main-light-line");
@@ -737,9 +899,14 @@ async function transitionToMain() {
     projectPoint.style.fill = "black";
     projectBlink.cancel();
 
-    // 메인 노선도 부드럽게 사라지기
+    // 메인 노선도와 랜덤 글귀 부드럽게 사라지기
     mainScene.style.transition = "opacity 1000ms ease";
     mainScene.style.opacity = 0;
+
+    if (quoteBox) {
+        quoteBox.style.transition = "opacity 1000ms ease";
+        quoteBox.style.opacity = 0;
+    }
 
     await new Promise(resolve => setTimeout(resolve, 2000));
 
