@@ -208,8 +208,20 @@
 </div>
 
 
+
 <!-- 페이지 전환 모션 -->
 <div class="transition-screen">
+
+    <!-- 음양 시리즈 소개 -->
+    <div class="series-intro yin-series-intro">
+        <h2>음양</h2>
+        <p>
+            자연에서 편안함과 위안을 느끼는 동시에 고립감과 두려움을 경험했던 경험은 서로 반대되는 감정이 공존하는 이유에 대한 관심으로 확장되었다.
+            이를 음양의 관계로 연결하고, 수묵화의 돌을 통해 표현하고자 했다.
+            단단한 표면의 돌은 양으로, 이끼가 낀 돌은 음으로 나타냈으며, 각기 다른 화면 구성과 배치를 통해 두 성질을 시각화했다.
+            이를 통해 결국 음과 양은 서로 반대되지만 분리된 존재가 아니라, 서로를 통해 드러나고 균형을 이루며 공존하는 관계임을 표현했다.
+        </p>
+    </div>
 
     <!-- 음양 노선도 -->
     <svg class="yin-transition" viewBox="475 340 270 300">
@@ -271,6 +283,10 @@
             class="main-project-point"/>
 
     </svg>
+
+    <div class="transition-caption"></div>
+
+    <div class="random-quote"></div>
 
 </div>
 
@@ -470,6 +486,11 @@ function updateActiveArtwork() {
 
 }
 
+let currentStationNumber = (() => {
+    const match = location.hash.match(/-(\d+)$/);
+    return match ? Number(match[1]) : 1;
+})();
+
 function centerArtwork(artwork) {
     const containerRect = container.getBoundingClientRect();
     const artworkRect = artwork.getBoundingClientRect();
@@ -494,6 +515,15 @@ function centerArtwork(artwork) {
         if (progress < 1) {
             requestAnimationFrame(animate);
         }
+
+        else {
+            const match = artwork.id.match(/-(\d+)$/);
+
+            if (match) {
+                currentStationNumber = Number(match[1]);
+            }
+        }
+
     }
 
     requestAnimationFrame(animate);
@@ -584,9 +614,10 @@ async function transitionToMain() {
 
     // 현재 페이지의 노선도 이름과 역 번호 확인
     const hash = location.hash;
-    const match = hash.match(/(relation|tree|black|yin)(?:_yang)?-(\d+)/);
-    const routeName = match ? match[1] : "relation";
+    const match = hash.match(/(relation|tree|black|yin)(?:[-_]yang)?-(\d+)/);
+    const routeName = match ? match[1] : "yin";
     const target = match ? Number(match[2]) : 1;
+
 
     // 현재 페이지에 해당하는 노선도 선택
     const routeScene = screen.querySelector(
@@ -615,9 +646,30 @@ async function transitionToMain() {
     }
 
     const actualTarget = Math.min(
-        Math.max(1, target),
+        Math.max(1, currentStationNumber),
         stations.length
     );
+
+    const yinCaptions = [
+        "움직임 없이 여러 감각을 통해 자연과 대화하며 평온함을 느끼다",
+        "가까운 형제자매도 결국 서로 다른 타인이다",
+        "자연과의 경험을 통해 공허함을 극복하고 다시 힘을 얻다",
+        "사람들 속에서도 홀로 남겨진 듯한 우울이 있다",
+        "집중",
+        "쌍둥이",
+        "서로 다른 존재 속에서 각자의 고유함과 공통점을 발견하다",
+        "나를 정의하는 데에는 나를 바라보는 타인의 시선이 필요하다",
+        "군중",
+        "정지된 상태인 죽음을 윤회할 수 있는가",
+        "사진",
+        "음과 양, 분리될 수 없으며 서로 균형을 이루며 공존하다"
+    ];
+
+
+
+
+
+
 
     // 모든 노선도 숨기기
     screen.querySelectorAll("svg").forEach(svg => {
@@ -637,6 +689,10 @@ async function transitionToMain() {
     screen.style.display = "flex";
 
     void screen.offsetWidth;
+
+
+
+
 
 
     // 노선의 길이 계산
@@ -731,20 +787,62 @@ async function transitionToMain() {
         station.style.fill = "black";
     });
 
+    // 작품 설명 영역
+    const caption = screen.querySelector(".transition-caption");
+
     // 현재 역에서 첫 번째 역까지 역순으로 이동
     for (let i = actualTarget - 1; i >= 0; i--) {
+
         if (i < actualTarget - 1) {
             await move(i + 1, i);
         }
 
+    // 작품 설명 변경
+    if (caption) {
+        caption.style.transition = "none";
+        caption.textContent = yinCaptions[i];
+        caption.style.opacity = 1;
+    }
         await blink(stations[i]);
     }
 
-    // 현재 노선도 사라지기
+    // 노선도와 위아래 설명을 동시에 사라지게 하기
+    const seriesIntro = screen.querySelector(".series-intro");
+
     routeScene.style.transition = "opacity 400ms ease";
     routeScene.style.opacity = 0;
 
-    await new Promise(resolve => setTimeout(resolve, 450));
+    if (caption) {
+        caption.style.transition = "opacity 400ms ease";
+        caption.style.opacity = 0;
+    }
+
+    if (seriesIntro) {
+        seriesIntro.style.transition = "opacity 400ms ease";
+        seriesIntro.style.opacity = 0;
+    }
+
+    // 세 요소가 사라질 때까지 대기
+    await new Promise(resolve => setTimeout(resolve, 500));
+
+    // 주제 설명 초기화
+    if (seriesIntro) {
+        seriesIntro.style.display = "none";
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -753,15 +851,87 @@ async function transitionToMain() {
 
 
     
-    // 메인 노선도 등장
+    // 랜덤 글귀 설정
+    const quoteBox = screen.querySelector(".random-quote");
+
+    const quotes = [
+        "사유",
+        "대화",
+        "연결",
+        "정보",
+        "해석",
+        "관찰",
+        "기억",
+        "관계",
+        "확장",
+        "파생",
+        "시선",
+        "흔적",
+        "가능성",
+        "되돌아보기",
+        "정보수집가",
+
+        "익숙한 것을 다시 바라보기.",
+        "하나의 생각에서 또 다른 생각으로.",
+        "서로 다른 관점이 만나 새로운 의미를 만든다.",
+        "지나간 이야기에서 새로운 가능성을 발견한다.",
+        "사소한 정보가 생각의 시작이 되기도 한다.",
+        "대화는 새로운 생각을 만들어 낸다.",
+        "작품을 바라보는 또 하나의 시선.",
+        "하나의 이미지에서 여러 이야기가 파생된다.",
+        "생각은 서로 연결되고 확장된다.",
+        "처음의 질문으로 다시 돌아가기.",
+        "작품을 통해 나의 생각을 건네다.",
+        "익숙한 대상에 새로운 의미를 부여하다.",
+
+        "그림은 세계를 이해하고 해석하는 매개체가 될 수 있다.",
+        "나의 사고방식 자체를 작품의 일부로 받아들이다.",
+        "중요하지 않다고 여겼던 정보가 일상에 영향을 미치기도 한다.",
+        "타인과 의견을 주고받으며 사고를 확장하다.",
+        "작품은 내가 감상자에게 건네는 말과 같다.",
+        "작품과 대화를 나누며 처음에는 생각하지 못했던 이야기를 만들어 간다.",
+        "처음 작업을 시작했을 때의 마음을 다시 떠올리다.",
+        "작품을 오래 바라보고 생각하는 태도.",
+        "감상자 자신만의 사유를 이어 가다.",
+        "지나간 이야기로 돌아가 새로운 이야기를 시작하다."
+    ];
+    const randomIndex = Math.floor(Math.random() * quotes.length);
+
+    // 글귀 내용과 종류 설정
+    if (quoteBox) {
+        const selectedQuote = quotes[randomIndex];
+
+        quoteBox.textContent = selectedQuote;
+
+        if (selectedQuote.length <= 10 && !selectedQuote.includes(".")) {
+            quoteBox.className = "random-quote word";
+        } else {
+            quoteBox.className = "random-quote sentence";
+        }
+
+        quoteBox.style.transition = "none";
+        quoteBox.style.opacity = 0;
+    }
+
+    // 메인 노선도와 랜덤 글귀 등장
     mainScene.style.visibility = "visible";
     mainScene.style.transition = "opacity 500ms ease";
 
     void mainScene.getBoundingClientRect();
 
+    if (quoteBox) {
+        quoteBox.style.transition = "opacity 500ms ease";
+    }
+
     mainScene.style.opacity = 1;
 
+    if (quoteBox) {
+        quoteBox.style.opacity = 1;
+    }
+
     await new Promise(resolve => setTimeout(resolve, 550));
+
+
 
     // 오른쪽에서 프로젝트 역으로 빛 이동
     const mainLight = mainScene.querySelector(".main-light-line");
@@ -815,9 +985,14 @@ async function transitionToMain() {
     projectPoint.style.fill = "black";
     projectBlink.cancel();
 
-    // 메인 노선도 부드럽게 사라지기
+    // 메인 노선도와 랜덤 글귀 부드럽게 사라지기
     mainScene.style.transition = "opacity 1000ms ease";
     mainScene.style.opacity = 0;
+
+    if (quoteBox) {
+        quoteBox.style.transition = "opacity 1000ms ease";
+        quoteBox.style.opacity = 0;
+    }
 
     await new Promise(resolve => setTimeout(resolve, 2000));
 
